@@ -2,11 +2,12 @@ package bakery;
 
 import java.util.ArrayList;
 
-public class Layer {
+public class Layer extends Ingredient {
 
     private ArrayList<Ingredient> recipe = new ArrayList<Ingredient>();
 
     public Layer(String name, ArrayList<Ingredient> recipe) {
+        super(name);
         this.recipe = recipe;
     }
 

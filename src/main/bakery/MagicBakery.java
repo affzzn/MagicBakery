@@ -6,7 +6,7 @@ public class MagicBakery {
 
     // missing params: // long seed, String ingredientDeckFile, String layerDeckFile
 
-    public MagicBakery() {
+    public MagicBakery(String ingredientDeckFile, String layerDeckFile) {
         Ingredient flour = new Ingredient("Flour");
         Ingredient sugar = new Ingredient("Sugar");
         Ingredient egg = new Ingredient("Egg");
@@ -38,5 +38,15 @@ public class MagicBakery {
 
         CustomerOrder cake = new CustomerOrder("Cake", recipe, garnish, 1);
 
+        // ArrayList<Ingredient> allIngredients =
+        // CardUtils.readIngredientFile(ingredientDeckFile);
+
+        // System.out.println(allIngredients.size());
+
     }
+
+    public void startGame(String customerDeckFile) {
+        // constructor
+    }
+
 }
