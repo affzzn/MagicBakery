@@ -45,8 +45,8 @@ public class MagicBakery {
 
     }
 
-    public void startGame(String customerDeckFile) {
-        // constructor
+    public void startGame(ArrayList<String> playerNames, String customerDeckFile) {
+
     }
 
 }

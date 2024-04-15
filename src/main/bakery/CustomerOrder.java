@@ -11,12 +11,28 @@ public class CustomerOrder {
 
     private ArrayList<Ingredient> recipe = new ArrayList<Ingredient>();
 
+    // not sure
+    private CustomerOrderStatus status; // enum to track order status //
+
+    public enum CustomerOrderStatus {
+        WAITING, // Order is placed and waiting to be processed
+        FULFILLED, // Order has been made
+        GARNISHED, // Order has been garnished
+        IMPATIENT, // Customer is impatient
+        GIVEN_UP // Order is abandoned
+    }
+
     public CustomerOrder(String name, ArrayList<Ingredient> recipe, ArrayList<Ingredient> granish, int level) {
         //
         this.name = name;
         this.recipe = recipe;
         this.garnish = granish;
         this.level = level;
+
+        // Add the status attribute to the CustomerOrder class and ensure it is
+        // initialised
+        // with the correct value in the CustomerOrder constructor.
+        this.status = CustomerOrderStatus.WAITING; // default status to WAITING
     }
 
     public ArrayList<Ingredient> getGarnish() {
@@ -49,5 +65,14 @@ public class CustomerOrder {
 
     public String toString() {
         return name;
+    }
+
+    // getter and setter for status
+    public CustomerOrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CustomerOrderStatus status) {
+        this.status = status;
     }
 }
