@@ -1,6 +1,8 @@
 package bakery;
 
-public class Ingredient {
+import java.io.Serializable;
+
+public class Ingredient implements Serializable, Comparable<Ingredient> {
     private String name;
 
     public static Ingredient HELPFUL_DUCK;
@@ -20,5 +22,10 @@ public class Ingredient {
 
     public String toString() {
         return name;
+    }
+
+    public int compareTo(Ingredient o) {
+        // return this.name.compareTo(o.name);
+        return 0;
     }
 }

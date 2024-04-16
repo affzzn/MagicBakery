@@ -12,9 +12,7 @@ import bakery.Layer;
 
 public class CardUtils {
 
-    // **********************
     // all methods are static
-    // **********************
 
     private CardUtils() {
     }

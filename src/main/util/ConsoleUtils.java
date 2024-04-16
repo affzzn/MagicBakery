@@ -3,6 +3,13 @@ package util;
 import java.io.Console;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+
+import bakery.CustomerOrder;
+import bakery.Ingredient;
+import bakery.MagicBakery;
+import bakery.MagicBakery.ActionType;
+import bakery.Player;
 
 public class ConsoleUtils {
 
@@ -21,12 +28,28 @@ public class ConsoleUtils {
         return console.readLine(fmt, args);
     }
 
+    public ActionType promptForAction(String prompt, MagicBakery bakery) {
+        return null;
+    }
+
+    public CustomerOrder promptFCustomer(String prompt, Collection<CustomerOrder> customers) {
+        return null;
+    }
+
+    public Player promptForExistingPlayer(String prompt, MagicBakery bakery) {
+        return null;
+    }
+
     public File promptForFilePath(String prompt) {
 
         String path = console.readLine(prompt);
         File fileObj = new File(path);
 
         return fileObj;
+    }
+
+    public Ingredient promptForIngredient(String prompt, Collection<Ingredient> ingredients) {
+        return null;
     }
 
     public ArrayList<String> promptForNewPlayers(String prompt) {
@@ -61,5 +84,9 @@ public class ConsoleUtils {
 
     public boolean promptForYesNo(String prompt) {
         return console.readLine(prompt).equalsIgnoreCase("yes");
+    }
+
+    private Object promptEnumerateCollection(String prompt, Collection<Object> collection) {
+        return null;
     }
 }
