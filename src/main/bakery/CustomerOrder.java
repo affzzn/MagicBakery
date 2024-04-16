@@ -1,6 +1,7 @@
 package bakery;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerOrder {
 
@@ -11,8 +12,9 @@ public class CustomerOrder {
 
     private ArrayList<Ingredient> recipe = new ArrayList<Ingredient>();
 
-    // not sure
     private CustomerOrderStatus status; // enum to track order status //
+
+    private static long serialVersionUID;
 
     public enum CustomerOrderStatus {
         WAITING, // Order is placed and waiting to be processed
@@ -33,6 +35,22 @@ public class CustomerOrder {
         // initialised
         // with the correct value in the CustomerOrder constructor.
         this.status = CustomerOrderStatus.WAITING; // default status to WAITING
+    }
+
+    public void abandon() {
+        this.status = CustomerOrderStatus.GIVEN_UP;
+    }
+
+    public boolean canFulfill(List<Ingredient> ingredients) {
+        return false;
+    }
+
+    public boolean canGarnish(List<Ingredient> ingredients) {
+        return false;
+    }
+
+    public List<Ingredient> fulfill(List<Ingredient> ingredients, boolean garnish) {
+        return null;
     }
 
     public ArrayList<Ingredient> getGarnish() {
@@ -63,10 +81,6 @@ public class CustomerOrder {
         return recipeDescription.toString().trim();
     }
 
-    public String toString() {
-        return name;
-    }
-
     // getter and setter for status
     public CustomerOrderStatus getStatus() {
         return status;
@@ -74,5 +88,9 @@ public class CustomerOrder {
 
     public void setStatus(CustomerOrderStatus status) {
         this.status = status;
+    }
+
+    public String toString() {
+        return name;
     }
 }

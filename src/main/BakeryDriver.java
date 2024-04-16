@@ -4,6 +4,7 @@ import bakery.MagicBakery;
 
 // temp
 import util.CardUtils;
+import util.ConsoleUtils;
 import bakery.Ingredient;
 import bakery.Layer;
 import bakery.CustomerOrder;
@@ -26,8 +27,9 @@ public class BakeryDriver {
         ArrayList<Layer> layers = CardUtils
                 .readLayerFile("io/layers.csv");
 
-        // ArrayList<CustomerOrder> orders = CardUtils
-        // .readCustomerFile("io/customers.csv");
-    }
+        // ArrayList<String> gamePlayers = ConsoleUtils.promptForNewPlayers("Enter
+        // number of players:");
 
+        // magicBakery.startGame(gamePlayers, "io/customers.csv");
+    }
 }

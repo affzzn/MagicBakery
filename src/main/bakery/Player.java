@@ -7,6 +7,8 @@ public class Player {
     private ArrayList<Ingredient> hand;
     private String name;
 
+    private static long serialVersionUID;
+
     public Player(String name) {
         this.name = name;
     }

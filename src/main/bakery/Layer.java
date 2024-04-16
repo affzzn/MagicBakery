@@ -1,17 +1,24 @@
 package bakery;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Layer extends Ingredient {
 
-    private ArrayList<Ingredient> recipe = new ArrayList<Ingredient>();
+    private List<Ingredient> recipe;
 
-    public Layer(String name, ArrayList<Ingredient> recipe) {
+    private static long serialVersionUID;
+
+    public Layer(String name, List<Ingredient> recipe) {
         super(name);
         this.recipe = recipe;
     }
 
-    public ArrayList<Ingredient> getRecipe() {
+    public boolean canBake(List<Ingredient> ingredients) {
+        return false;
+    }
+
+    public List<Ingredient> getRecipe() {
         return recipe; //
     }
 
@@ -23,18 +30,5 @@ public class Layer extends Ingredient {
             recipeDescription.append(ingredient).append(" ");
         }
         return recipeDescription.toString().trim(); // trim to remove the trailing space
-
-        // int i = 0;
-        // while (i < recipe.size()) {
-        // System.out.print(recipe.get(i) + " ");
-        // i++;
-        // }
-        // return "";
-
-        // for (int i = 0; i < recipe.size(); i++) {
-        // // System.out.print(recipe.get(i) + " ");
-        // return recipe.get(i) + " ";
-        // }
-        // return "";
     }
 }
