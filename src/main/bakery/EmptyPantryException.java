@@ -1,6 +1,7 @@
 package bakery;
 
-public class EmptyPantryException {
-    public EmptyPantryException(String msg, Throwable e) {
+public class EmptyPantryException extends java.lang.RuntimeException {
+
+    public EmptyPantryException() {
     }
 }
