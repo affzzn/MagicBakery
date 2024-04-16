@@ -3,18 +3,18 @@ package bakery;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerOrder {
+public class CustomerOrder implements java.io.Serializable {
 
-    private ArrayList<Ingredient> garnish = new ArrayList<Ingredient>();
+    private List<Ingredient> garnish;
 
     private int level;
     private String name;
 
-    private ArrayList<Ingredient> recipe = new ArrayList<Ingredient>();
+    private List<Ingredient> recipe;
 
     private CustomerOrderStatus status; // enum to track order status //
 
-    private static long serialVersionUID;
+    private static final long serialVersionUID = 0;
 
     public enum CustomerOrderStatus {
         WAITING, // Order is placed and waiting to be processed
@@ -24,7 +24,7 @@ public class CustomerOrder {
         GIVEN_UP // Order is abandoned
     }
 
-    public CustomerOrder(String name, ArrayList<Ingredient> recipe, ArrayList<Ingredient> granish, int level) {
+    public CustomerOrder(String name, List<Ingredient> recipe, List<Ingredient> granish, int level) {
         //
         this.name = name;
         this.recipe = recipe;
@@ -53,7 +53,7 @@ public class CustomerOrder {
         return null;
     }
 
-    public ArrayList<Ingredient> getGarnish() {
+    public List<Ingredient> getGarnish() {
         return garnish;
     }
 
@@ -69,7 +69,7 @@ public class CustomerOrder {
         return level;
     }
 
-    public ArrayList<Ingredient> getRecipe() {
+    public List<Ingredient> getRecipe() {
         return recipe;
     }
 

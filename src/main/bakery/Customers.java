@@ -1,12 +1,13 @@
 package bakery;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
 import bakery.CustomerOrder.CustomerOrderStatus;
 
-public class Customers {
+public class Customers implements Serializable {
 
     private Collection<CustomerOrder> activeCustomers;
     private Collection<CustomerOrder> customerDeck;
@@ -15,7 +16,7 @@ public class Customers {
 
     private Random random;
 
-    private static long serialVersionUID;
+    private static final long serialVersionUID = 0;
 
     public Customers(String deckFile, Random random, Collection<Layer> layers, int numPlayers) {
         this.random = random;
@@ -49,7 +50,7 @@ public class Customers {
         return inactiveCustomers;
     }
 
-    private void initialiseCustomerDeck(String deckFile) {
+    private void initialiseCustomerDeck(String deckFile, Collection<Layer> layers, int numPlayers) {
 
     }
 
@@ -61,7 +62,7 @@ public class Customers {
         return null;
     }
 
-    public void removeCustomer(CustomerOrder customer) {
+    public void remove(CustomerOrder customer) {
 
     }
 

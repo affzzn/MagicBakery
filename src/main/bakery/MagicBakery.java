@@ -1,18 +1,19 @@
 package bakery;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-public class MagicBakery {
+public class MagicBakery implements Serializable {
 
     // missing params: // long seed, String ingredientDeckFile, String layerDeckFile
 
     // structural code
 
-    private Customers customer;
+    private Customers customers;
 
     private Collection<Layer> layers;
 
@@ -26,14 +27,14 @@ public class MagicBakery {
 
     private Random random;
 
-    private static long serialVersionUID;
+    private static final long serialVersionUID = 0;
 
     // enum: ActionType
     public enum ActionType {
         DRAW_INGREDIENT, PASS_INGREDIENT, BAKE_LAYER, FULFIL_ORDER, REFRESH_PANTRY
     }
 
-    public MagicBakery(String ingredientDeckFile, String layerDeckFile) {
+    public MagicBakery(long seed, String ingredientDeckFile, String layerDeckFile) {
 
         // Ingredient flour = new Ingredient("Flour");
         // Ingredient sugar = new Ingredient("Sugar");
@@ -101,11 +102,11 @@ public class MagicBakery {
         return 0;
     }
 
-    public int getActionRemaining() {
+    public int getActionsRemaining() {
         return 0;
     }
 
-    public Collection<Layer> getBakabLayers() {
+    public Collection<Layer> getBakeableLayers() {
         return null;
     }
 
@@ -121,7 +122,7 @@ public class MagicBakery {
         return null;
     }
 
-    public Collection<CustomerOrder> getGarnsihableCustomers() {
+    public Collection<CustomerOrder> getGarnishableCustomers() {
         return null;
     }
 
@@ -161,7 +162,7 @@ public class MagicBakery {
 
     }
 
-    public void startGame(ArrayList<String> playerNames, String customerDeckFile) {
+    public void startGame(List<String> playerNames, String customerDeckFile) {
 
     }
 

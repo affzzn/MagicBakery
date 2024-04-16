@@ -4,6 +4,7 @@ import java.io.Console;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import bakery.CustomerOrder;
 import bakery.Ingredient;
@@ -32,7 +33,7 @@ public class ConsoleUtils {
         return null;
     }
 
-    public CustomerOrder promptFCustomer(String prompt, Collection<CustomerOrder> customers) {
+    public CustomerOrder promptForCustomer(String prompt, Collection<CustomerOrder> customers) {
         return null;
     }
 
@@ -52,30 +53,32 @@ public class ConsoleUtils {
         return null;
     }
 
-    public ArrayList<String> promptForNewPlayers(String prompt) {
+    public List<String> promptForNewPlayers(String prompt) {
 
-        ArrayList<String> players = new ArrayList<String>();
+        // ArrayList<String> players = new ArrayList<String>();
 
-        int minPlayers = 2;
-        int maxPlayers = 5;
+        // int minPlayers = 2;
+        // int maxPlayers = 5;
 
-        int numPlayers = 0;
+        // int numPlayers = 0;
 
-        //
-        while (numPlayers < minPlayers || numPlayers > maxPlayers) {
-            numPlayers = Integer.parseInt(console.readLine(prompt));
-            if (numPlayers < minPlayers || numPlayers > maxPlayers) {
-                System.out.println("Please enter a number between 2 and 5");
+        // //
+        // while (numPlayers < minPlayers || numPlayers > maxPlayers) {
+        // numPlayers = Integer.parseInt(console.readLine(prompt));
+        // if (numPlayers < minPlayers || numPlayers > maxPlayers) {
+        // System.out.println("Please enter a number between 2 and 5");
 
-            }
-        }
+        // }
+        // }
 
-        for (int i = 0; i < numPlayers; i++) {
-            System.out.println("Enter player name: ");
-            players.add(console.readLine());
-        }
+        // for (int i = 0; i < numPlayers; i++) {
+        // System.out.println("Enter player name: ");
+        // players.add(console.readLine());
+        // }
 
-        return players;
+        // return players;
+
+        return null;
     }
 
     public boolean promptForStartLoad(String prompt) {
