@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import bakery.CustomerOrder;
 import bakery.Ingredient;
@@ -18,7 +20,7 @@ public class CardUtils {
     }
 
     // read ingredients from a file
-    public static ArrayList<Ingredient> readIngredientFile(String path) throws IOException {
+    public static List<Ingredient> readIngredientFile(String path) throws IOException {
         // stringToIngredient is supposed to read the ingredients file line by line and
         // calls the stringToIngredient method for each line
 
@@ -49,7 +51,7 @@ public class CardUtils {
         return allIngredients;
     }
 
-    private static ArrayList<Ingredient> stringToIngredients(String str) {
+    private static List<Ingredient> stringToIngredients(String str) {
         // implement the logic to convert a string (file data) into
         // a list of Ingredients
 
@@ -87,7 +89,7 @@ public class CardUtils {
     // Layers
 
     // Read layers from a file
-    public static ArrayList<Layer> readLayerFile(String path) throws IOException {
+    public static List<Layer> readLayerFile(String path) throws IOException {
         ArrayList<Layer> allLayers = new ArrayList<Layer>(); // big list of all layers
 
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
@@ -103,7 +105,7 @@ public class CardUtils {
         return allLayers;
     }
 
-    private static ArrayList<Layer> stringToLayers(String str) {
+    private static List<Layer> stringToLayers(String str) {
         System.out.println(str);
 
         // split the string by comma
@@ -139,7 +141,7 @@ public class CardUtils {
 
     // customer orrders
 
-    public static ArrayList<CustomerOrder> readCustomerFile(String path, ArrayList<Layer> layers)
+    public static List<CustomerOrder> readCustomerFile(String path, Collection<Layer> layers)
             throws IOException {
         ArrayList<CustomerOrder> allOrders = new ArrayList<CustomerOrder>(); // big list of all orders
 
@@ -147,7 +149,9 @@ public class CardUtils {
             String line = reader.readLine(); // Skip the header
             while ((line = reader.readLine()) != null) {
                 // stringToOrders(line); // im not sure about this
-                allOrders.addAll(stringToCustomerOrder(line, layers));
+                allOrders.add(stringToCustomerOrder(line, layers));
+                // allOrders.addAll((Collection<? extends CustomerOrder>)
+                // stringToCustomerOrder(line, layers));
             }
         }
 
@@ -156,7 +160,7 @@ public class CardUtils {
         return allOrders;
     }
 
-    private static ArrayList<CustomerOrder> stringToCustomerOrder(String str, ArrayList<Layer> layers) {
+    private static CustomerOrder stringToCustomerOrder(String str, Collection<Layer> layers) {
         System.out.println(str);
 
         // split the string by comma
@@ -195,7 +199,10 @@ public class CardUtils {
         CustomerOrder order = new CustomerOrder(name, recipeIngredients, garnishIngredients, level);
         orders.add(order);
 
-        return orders;
+        // return orders;
+
+        // for structural test :: return null
+        return null;
     }
 
 }

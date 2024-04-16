@@ -1,19 +1,20 @@
 package bakery;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
 
-    private ArrayList<Ingredient> hand;
+    private List<Ingredient> hand;
     private String name;
 
-    private static long serialVersionUID;
+    private static final long serialVersionUID = 0;
 
     public Player(String name) {
         this.name = name;
     }
 
-    public void addToHand(ArrayList<Ingredient> ingredients) {
+    public void addToHand(List<Ingredient> ingredients) {
 
     }
 
@@ -29,7 +30,7 @@ public class Player {
 
     }
 
-    public ArrayList<Ingredient> getHand() {
+    public List<Ingredient> getHand() {
         return hand;
     }
 
