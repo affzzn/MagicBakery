@@ -27,9 +27,16 @@ public class Layer extends Ingredient {
 
         StringBuilder recipeDescription = new StringBuilder();
         for (Ingredient ingredient : recipe) {
-            recipeDescription.append(ingredient).append(" ");
+            recipeDescription.append(ingredient).append(", ");
         }
-        return recipeDescription.toString().trim(); // trim to remove the trailing space
+
+        // return recipeDescription.toString().trim().substring(0, 0); // trim to remove
+        // the trailing space
+
+        return recipeDescription.toString().substring(0, recipeDescription.toString().length() - 2); // trim to remove
+                                                                                                     // the
+                                                                                                     // trailing space
+
     }
 
     // just to pass the structural test :: hashCode :: dont see this method in the

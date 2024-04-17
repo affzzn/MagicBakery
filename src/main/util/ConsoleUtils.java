@@ -55,30 +55,37 @@ public class ConsoleUtils {
 
     public List<String> promptForNewPlayers(String prompt) {
 
-        // ArrayList<String> players = new ArrayList<String>();
+        // try again
 
-        // int minPlayers = 2;
-        // int maxPlayers = 5;
+        ArrayList<String> players = new ArrayList<String>();
 
-        // int numPlayers = 0;
+        int minPlayers = 2;
+        int maxPlayers = 5;
 
-        // //
-        // while (numPlayers < minPlayers || numPlayers > maxPlayers) {
-        // numPlayers = Integer.parseInt(console.readLine(prompt));
-        // if (numPlayers < minPlayers || numPlayers > maxPlayers) {
-        // System.out.println("Please enter a number between 2 and 5");
+        int curPlayers = 0;
 
-        // }
-        // }
+        while (curPlayers < minPlayers || curPlayers > maxPlayers) {
+            players.add(console.readLine(prompt));
 
-        // for (int i = 0; i < numPlayers; i++) {
-        // System.out.println("Enter player name: ");
-        // players.add(console.readLine());
-        // }
+            curPlayers = players.size();
 
-        // return players;
+            if (curPlayers < minPlayers || curPlayers > maxPlayers) {
+                System.out.println("You can only enter 2 - 5 players");
+            }
 
-        return null;
+            if (curPlayers < maxPlayers) {
+                System.out.print("Do you want to add another player? (yes/no): ");
+                String choice = console.readLine().trim().toLowerCase();
+                if (!choice.equals("yes")) {
+                    break;
+                }
+            }
+        }
+
+        return players;
+
+        // returning null for structural tests // temp
+        // return null;
     }
 
     public boolean promptForStartLoad(String prompt) {
