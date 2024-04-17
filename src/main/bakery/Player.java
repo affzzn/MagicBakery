@@ -3,6 +3,7 @@ package bakery;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class Player implements Serializable {
@@ -43,16 +44,36 @@ public class Player implements Serializable {
     }
 
     public String getHandStr() {
-        StringBuilder handStr = new StringBuilder();
-        for (int i = 0; i < hand.size(); i++) {
-            handStr.append(hand.get(i)).append(", ");
-        }
-
-        if (handStr.length() > 0) {
-            return handStr.substring(0, handStr.length() - 2);
-        } else {
+        if (hand.isEmpty()) {
             return "";
         }
+
+        Collections.sort(hand);
+
+        StringBuilder handString = new StringBuilder();
+        HashMap<Ingredient, Integer> ingredientMap = new HashMap<>();
+
+        for (int i = 0; i < hand.size(); i++) {
+            Ingredient ingredient = hand.get(i);
+            ingredientMap.put(ingredient, ingredientMap.getOrDefault(ingredient, 0) + 1);
+        }
+
+        ArrayList<Ingredient> ingredientKey = new ArrayList<>(ingredientMap.keySet());
+
+        for (int i = 0; i < ingredientKey.size(); i++) {
+            if (i > 0) {
+                handString.append(", ");
+            }
+            Ingredient key = ingredientKey.get(i);
+            handString.append(key.toString());
+            int frequency = ingredientMap.get(key);
+
+            if (frequency > 1) {
+                handString.append(" (x").append(frequency).append(")");
+            }
+        }
+
+        return handString.toString();
     }
 
     public String toString() {

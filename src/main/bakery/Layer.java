@@ -15,7 +15,21 @@ public class Layer extends Ingredient {
     }
 
     public boolean canBake(List<Ingredient> ingredients) {
-        return false;
+        for (Ingredient requiredIngredient : recipe) {
+            boolean ingredientFound = false;
+            for (Ingredient ingredient : ingredients) {
+                if (ingredient.equals(requiredIngredient)) {
+                    ingredientFound = true;
+                    break;
+                }
+            }
+            if (!ingredientFound && !requiredIngredient.equals(Ingredient.HELPFUL_DUCK)) {
+                // If any required ingredient is not found in the provided list, return false
+                return false;
+            }
+        }
+        // If all required ingredients are found in the provided list, return true
+        return true;
     }
 
     public List<Ingredient> getRecipe() {
