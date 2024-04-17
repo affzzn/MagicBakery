@@ -55,7 +55,7 @@ public class ConsoleUtils {
 
     public List<String> promptForNewPlayers(String prompt) {
 
-        // try again
+        System.out.println(prompt);
 
         ArrayList<String> players = new ArrayList<String>();
 
@@ -65,7 +65,7 @@ public class ConsoleUtils {
         int curPlayers = 0;
 
         while (curPlayers < minPlayers || curPlayers > maxPlayers) {
-            players.add(console.readLine(prompt));
+            players.add(console.readLine("Enter Player name: "));
 
             curPlayers = players.size();
 
@@ -73,8 +73,8 @@ public class ConsoleUtils {
                 System.out.println("You can only enter 2 - 5 players");
             }
 
-            if (curPlayers < maxPlayers) {
-                System.out.print("Do you want to add another player? (yes/no): ");
+            if ((curPlayers < maxPlayers) && (curPlayers >= minPlayers)) {
+                promptForYesNo("Do You want to add another player? (yes/no): ");
                 String choice = console.readLine().trim().toLowerCase();
                 if (!choice.equals("yes")) {
                     break;

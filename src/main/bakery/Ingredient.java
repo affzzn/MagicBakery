@@ -13,11 +13,18 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
     }
 
     public boolean equals(Object o) {
-        return false;
+
+        if (o == null) {
+            return false;
+        } else if (o.getClass().equals(this.getClass()) && o.toString().equals(this.toString())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public int hashCode() {
-        return 0;
+        return this.name.hashCode();
     }
 
     public String toString() {
