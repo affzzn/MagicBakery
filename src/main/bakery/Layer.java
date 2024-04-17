@@ -19,7 +19,7 @@ public class Layer extends Ingredient {
     }
 
     public List<Ingredient> getRecipe() {
-        return recipe; //
+        return recipe;
     }
 
     public String getRecipeDescription() {
@@ -33,9 +33,7 @@ public class Layer extends Ingredient {
         // return recipeDescription.toString().trim().substring(0, 0); // trim to remove
         // the trailing space
 
-        return recipeDescription.toString().substring(0, recipeDescription.toString().length() - 2); // trim to remove
-                                                                                                     // the
-                                                                                                     // trailing space
+        return recipeDescription.toString().substring(0, recipeDescription.toString().length() - 2);
 
     }
 

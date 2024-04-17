@@ -38,19 +38,60 @@ public class CustomerOrder implements java.io.Serializable {
     }
 
     public void abandon() {
-        this.status = CustomerOrderStatus.GIVEN_UP;
+        // this.status = CustomerOrderStatus.GIVEN_UP;
+        setStatus(CustomerOrderStatus.GIVEN_UP);
+
     }
 
     public boolean canFulfill(List<Ingredient> ingredients) {
-        return false;
+        for (int i = 0; i < recipe.size(); i++) {
+            boolean found = false;
+            for (int j = 0; j < ingredients.size(); j++) {
+                if (recipe.get(i).equals(ingredients.get(j))) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean canGarnish(List<Ingredient> ingredients) {
-        return false;
+        for (int i = 0; i < garnish.size(); i++) {
+            boolean found = false;
+            for (int j = 0; j < ingredients.size(); j++) {
+                if (garnish.get(i).equals(ingredients.get(j))) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public List<Ingredient> fulfill(List<Ingredient> ingredients, boolean garnish) {
-        return null;
+
+        ArrayList<Ingredient> usedIngredients = new ArrayList<Ingredient>();
+
+        if (garnish) {
+            if (canGarnish(ingredients)) {
+                setStatus(CustomerOrderStatus.GARNISHED);
+                // usedIngredients.addAll(garnish);
+            }
+        } else {
+            if (canFulfill(ingredients)) {
+                setStatus(CustomerOrderStatus.FULFILLED);
+                usedIngredients.addAll(recipe);
+            }
+        }
+
+        return usedIngredients;
     }
 
     public List<Ingredient> getGarnish() {
@@ -60,9 +101,9 @@ public class CustomerOrder implements java.io.Serializable {
     public String getGarnishDescription() {
         StringBuilder garnishDescription = new StringBuilder();
         for (Ingredient ingredient : garnish) {
-            garnishDescription.append(ingredient).append(" ");
+            garnishDescription.append(ingredient).append(", ");
         }
-        return garnishDescription.toString().trim();
+        return garnishDescription.toString().substring(0, garnishDescription.toString().length() - 2);
     }
 
     public int getLevel() {
@@ -76,9 +117,9 @@ public class CustomerOrder implements java.io.Serializable {
     public String getRecipeDescription() {
         StringBuilder recipeDescription = new StringBuilder();
         for (Ingredient ingredient : recipe) {
-            recipeDescription.append(ingredient).append(" ");
+            recipeDescription.append(ingredient).append(", ");
         }
-        return recipeDescription.toString().trim();
+        return recipeDescription.toString().substring(0, recipeDescription.toString().length() - 2);
     }
 
     // getter and setter for status

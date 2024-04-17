@@ -18,7 +18,6 @@ public class ConsoleUtils {
 
     public ConsoleUtils() {
         console = System.console();
-        // this.console = console; //
     }
 
     public String readLine() {
@@ -54,39 +53,82 @@ public class ConsoleUtils {
     }
 
     public List<String> promptForNewPlayers(String prompt) {
-
         System.out.println(prompt);
 
-        ArrayList<String> players = new ArrayList<String>();
+        ArrayList<String> players = new ArrayList<>();
 
         int minPlayers = 2;
         int maxPlayers = 5;
 
-        int curPlayers = 0;
+        while (players.size() < minPlayers || players.size() > maxPlayers) {
+            String playerName = console.readLine("Enter Player name: ");
+            playerName = playerName.trim();
 
-        while (curPlayers < minPlayers || curPlayers > maxPlayers) {
-            players.add(console.readLine("Enter Player name: "));
+            boolean nameExists = false;
+            for (int i = 0; i < players.size(); i++) {
+                if (players.get(i).equalsIgnoreCase(playerName)) {
+                    nameExists = true;
+                    break;
+                }
+            }
 
-            curPlayers = players.size();
+            if (nameExists) {
+                System.out.println("Player name already exists. Please enter a different name.");
+                continue;
+            }
 
-            if (curPlayers < minPlayers || curPlayers > maxPlayers) {
+            players.add(playerName);
+
+            if (players.size() < minPlayers || players.size() > maxPlayers) {
                 System.out.println("You can only enter 2 - 5 players");
             }
 
-            if ((curPlayers < maxPlayers) && (curPlayers >= minPlayers)) {
-                promptForYesNo("Do You want to add another player? (yes/no): ");
-                String choice = console.readLine().trim().toLowerCase();
-                if (!choice.equals("yes")) {
+            if (players.size() < maxPlayers && players.size() >= minPlayers) {
+
+                boolean choice = promptForYesNo("Do You want to add another player? (yes/no): ");
+                if (choice == false) {
                     break;
                 }
             }
         }
 
         return players;
-
-        // returning null for structural tests // temp
-        // return null;
     }
+
+    // public List<String> promptForNewPlayers(String prompt) {
+
+    // System.out.println(prompt);
+
+    // ArrayList<String> players = new ArrayList<String>();
+
+    // int minPlayers = 2;
+    // int maxPlayers = 5;
+
+    // int curPlayers = 0;
+
+    // while (curPlayers < minPlayers || curPlayers > maxPlayers) {
+    // players.add(console.readLine("Enter Player name: "));
+
+    // curPlayers = players.size();
+
+    // if (curPlayers < minPlayers || curPlayers > maxPlayers) {
+    // System.out.println("You can only enter 2 - 5 players");
+    // }
+
+    // if ((curPlayers < maxPlayers) && (curPlayers >= minPlayers)) {
+    // promptForYesNo("Do You want to add another player? (yes/no): ");
+    // String choice = console.readLine().trim().toLowerCase();
+    // if (!choice.equals("yes")) {
+    // break;
+    // }
+    // }
+    // }
+
+    // return players;
+
+    // // returning null for structural tests // temp
+    // // return null;
+    // }
 
     public boolean promptForStartLoad(String prompt) {
         return console.readLine(prompt).equalsIgnoreCase("yes");

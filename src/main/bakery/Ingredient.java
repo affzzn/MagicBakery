@@ -9,7 +9,7 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
     private static final long serialVersionUID = 0;
 
     public Ingredient(String name) {
-        this.name = name; //
+        this.name = name;
     }
 
     public boolean equals(Object o) {
@@ -32,7 +32,6 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
     }
 
     public int compareTo(Ingredient o) {
-        // return this.name.compareTo(o.name);
-        return 0;
+        return this.name.compareTo(o.name);
     }
 }
