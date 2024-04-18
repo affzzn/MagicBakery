@@ -15,20 +15,22 @@ public class Layer extends Ingredient {
     }
 
     public boolean canBake(List<Ingredient> ingredients) {
-        for (Ingredient requiredIngredient : recipe) {
+        for (int i = 0; i < recipe.size(); i++) {
+            Ingredient requiredIngredient = recipe.get(i);
             boolean ingredientFound = false;
-            for (Ingredient ingredient : ingredients) {
-                if (ingredient.equals(requiredIngredient)) {
+            for (int j = 0; j < ingredients.size(); j++) {
+                Ingredient ingredient = ingredients.get(j);
+                if (requiredIngredient.equals(ingredient) || requiredIngredient.equals(Ingredient.HELPFUL_DUCK)) {
                     ingredientFound = true;
                     break;
                 }
             }
-            if (!ingredientFound && !requiredIngredient.equals(Ingredient.HELPFUL_DUCK)) {
-                // If any required ingredient is not found in the provided list, return false
+            // If the required ingredient or a Helpful Duck substitute is not found, return
+            // false
+            if (!ingredientFound) {
                 return false;
             }
         }
-        // If all required ingredients are found in the provided list, return true
         return true;
     }
 
@@ -51,8 +53,7 @@ public class Layer extends Ingredient {
 
     }
 
-    // just to pass the structural test :: hashCode :: dont see this method in the
-    // UML
+    // structural test :: hashCode :: dont see this method in the UML
     public int hashCode() {
         return super.hashCode();
     }

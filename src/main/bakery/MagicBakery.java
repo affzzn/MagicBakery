@@ -36,6 +36,14 @@ public class MagicBakery implements Serializable {
 
     public MagicBakery(long seed, String ingredientDeckFile, String layerDeckFile) {
 
+        random = new Random(seed);
+        ingredientDeckFile = "io/ingredients.csv";
+        layerDeckFile = "io/layers.csv";
+
+        // empty values
+
+        pantry = new ArrayList<Ingredient>();
+
         // Ingredient flour = new Ingredient("Flour");
         // Ingredient sugar = new Ingredient("Sugar");
         // Ingredient egg = new Ingredient("Egg");

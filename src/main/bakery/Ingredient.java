@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Ingredient implements Serializable, Comparable<Ingredient> {
     private String name;
 
-    public static final Ingredient HELPFUL_DUCK = new Ingredient("Helpful duck");
+    public static final Ingredient HELPFUL_DUCK = new Ingredient("helpful duck 𓅭");
     private static final long serialVersionUID = 0;
 
     public Ingredient(String name) {

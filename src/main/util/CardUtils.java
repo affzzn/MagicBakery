@@ -143,14 +143,13 @@ public class CardUtils {
 
     public static List<CustomerOrder> readCustomerFile(String path, Collection<Layer> layers)
             throws IOException {
+
         ArrayList<CustomerOrder> allOrders = new ArrayList<CustomerOrder>(); // big list of all orders
 
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String line = reader.readLine(); // Skip the header
             while ((line = reader.readLine()) != null) {
-                // stringToOrders(line); // im not sure about this
                 allOrders.add(stringToCustomerOrder(line, layers));
-                // allOrders.addAll((Collection<? extends CustomerOrder>)
                 // stringToCustomerOrder(line, layers));
             }
         }
@@ -168,28 +167,50 @@ public class CardUtils {
         int level = Integer.parseInt(parts[0].trim());
         String name = parts[1].trim();
         String recipeString = parts[2].trim();
-        String garnishString = parts[3].trim();
-
-        // Parse the recipe string
-        String[] ingredientNames = recipeString.split(";");
-        String[] garnishNames = garnishString.split(";");
 
         // Create a new ArrayList to hold the ingredients for this layer
         ArrayList<Ingredient> recipeIngredients = new ArrayList<>();
         ArrayList<Ingredient> garnishIngredients = new ArrayList<>();
 
+        if (parts.length > 3) {
+            String garnishString = parts[3].trim();
+            String[] garnishNames = garnishString.split(";");
+            // Create Ingredient objects for each garnish name //
+            for (int i = 0; i < garnishNames.length; i++) {
+                boolean found = false;
+                String garnishName = garnishNames[i].trim();
+                for (int j = 0; j < layers.size(); j++) {
+                    if (garnishName.equals(((List<Layer>) layers).get(j).toString())) {
+                        recipeIngredients.add(((List<Layer>) layers).get(j));
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    Ingredient garnish = new Ingredient(garnishName);
+                    garnishIngredients.add(garnish);
+                }
+            }
+        }
+
+        // Parse the recipe string
+        String[] ingredientNames = recipeString.split(";");
+
         // Create Ingredient objects for each ingredient name
         for (int i = 0; i < ingredientNames.length; i++) {
             String ingredientName = ingredientNames[i].trim();
-            Ingredient ingredient = new Ingredient(ingredientName);
-            recipeIngredients.add(ingredient);
-        }
-
-        // Create Ingredient objects for each garnish name //
-        for (int i = 0; i < garnishNames.length; i++) {
-            String garnishName = garnishNames[i].trim();
-            Ingredient garnish = new Ingredient(garnishName);
-            garnishIngredients.add(garnish);
+            boolean found = false;
+            for (int j = 0; j < layers.size(); j++) {
+                if (ingredientName.equals(((List<Layer>) layers).get(j).toString())) {
+                    recipeIngredients.add(((List<Layer>) layers).get(j));
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                Ingredient ingredient = new Ingredient(ingredientName);
+                recipeIngredients.add(ingredient);
+            }
         }
 
         // Create an ArrayList to hold the orders
@@ -199,10 +220,7 @@ public class CardUtils {
         CustomerOrder order = new CustomerOrder(name, recipeIngredients, garnishIngredients, level);
         orders.add(order);
 
-        // return orders;
-
-        // for structural test :: return null
-        return null;
+        return order;
     }
 
 }
