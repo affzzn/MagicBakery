@@ -181,7 +181,7 @@ public class CardUtils {
                 String garnishName = garnishNames[i].trim();
                 for (int j = 0; j < layers.size(); j++) {
                     if (garnishName.equals(((List<Layer>) layers).get(j).toString())) {
-                        recipeIngredients.add(((List<Layer>) layers).get(j));
+                        garnishIngredients.add(((List<Layer>) layers).get(j));
                         found = true;
                         break;
                     }
@@ -214,11 +214,11 @@ public class CardUtils {
         }
 
         // Create an ArrayList to hold the orders
-        ArrayList<CustomerOrder> orders = new ArrayList<>();
+        // ArrayList<CustomerOrder> orders = new ArrayList<>();
 
         // Create a new Layer object with the parsed data
         CustomerOrder order = new CustomerOrder(name, recipeIngredients, garnishIngredients, level);
-        orders.add(order);
+        // orders.add(order);
 
         return order;
     }

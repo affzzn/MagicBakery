@@ -70,19 +70,36 @@ public class CustomerOrder implements java.io.Serializable {
      */
 
     public boolean canFulfill(List<Ingredient> ingredients) {
-        for (int i = 0; i < recipe.size(); i++) {
-            boolean found = false;
-            for (int j = 0; j < ingredients.size(); j++) {
-                if (this.recipe.get(i).equals(ingredients.get(j))) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                return false;
+        int helpfulDuckCount = 0;
+        int missingIngredients = 0;
+
+        // check for if the ingredient is an instance of Layer
+
+        // Count the number of helpful ducks in the ingredients list
+        for (int i = 0; i < ingredients.size(); i++) {
+            if (ingredients.get(i).equals(Ingredient.HELPFUL_DUCK)) {
+                helpfulDuckCount++;
             }
         }
-        return true;
+        // create a copy of ingredients list
+        ArrayList<Ingredient> copy = new ArrayList<Ingredient>(ingredients);
+
+        // Check each ingredient required in the recipe
+        for (int i = 0; i < recipe.size(); i++) {
+
+            if (copy.contains(recipe.get(i))) {
+                copy.remove(recipe.get(i));
+            }
+
+            else {
+                if ((recipe.get(i) instanceof Layer)) {
+                    return false;
+                }
+                missingIngredients++;
+
+            }
+        }
+        return missingIngredients == 0 || missingIngredients <= helpfulDuckCount;
     }
 
     /**
@@ -93,19 +110,36 @@ public class CustomerOrder implements java.io.Serializable {
      */
 
     public boolean canGarnish(List<Ingredient> ingredients) {
-        for (int i = 0; i < garnish.size(); i++) {
-            boolean found = false;
-            for (int j = 0; j < ingredients.size(); j++) {
-                if (this.garnish.get(i).equals(ingredients.get(j))) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                return false;
+        int helpfulDuckCount = 0;
+        int missingIngredients = 0;
+
+        // check for if the ingredient is an instance of Layer
+
+        // Count the number of helpful ducks in the ingredients list
+        for (int i = 0; i < ingredients.size(); i++) {
+            if (ingredients.get(i).equals(Ingredient.HELPFUL_DUCK)) {
+                helpfulDuckCount++;
             }
         }
-        return true;
+        // create a copy of ingredients list
+        ArrayList<Ingredient> copy = new ArrayList<Ingredient>(ingredients);
+
+        // Check each ingredient required in the recipe
+        for (int i = 0; i < garnish.size(); i++) {
+
+            if (copy.contains(garnish.get(i))) {
+                copy.remove(garnish.get(i));
+            }
+
+            else {
+                if ((garnish.get(i) instanceof Layer)) {
+                    return false;
+                }
+                missingIngredients++;
+
+            }
+        }
+        return missingIngredients == 0 || missingIngredients <= helpfulDuckCount;
     }
 
     /**
@@ -120,24 +154,37 @@ public class CustomerOrder implements java.io.Serializable {
 
         ArrayList<Ingredient> usedIngredients = new ArrayList<Ingredient>();
 
-        if (garnish) {
-            if (canGarnish(ingredients)) {
+        if (canFulfill(ingredients)) {
+            setStatus(CustomerOrderStatus.FULFILLED);
+
+            ArrayList<Ingredient> copy = new ArrayList<Ingredient>(ingredients);
+
+            for (int i = 0; i < this.recipe.size(); i++) {
+                if (copy.contains(this.recipe.get(i))) {
+                    copy.remove(this.recipe.get(i));
+                } else {
+                    copy.remove(Ingredient.HELPFUL_DUCK);
+                }
+            }
+
+            if (garnish && canGarnish(copy) && !this.garnish.isEmpty()) {
                 setStatus(CustomerOrderStatus.GARNISHED);
                 for (int i = 0; i < this.garnish.size(); i++) {
-                    usedIngredients.add(this.garnish.get(i));
+                    copy.remove(this.garnish.get(i));
+                    if (copy.contains(this.garnish.get(i))) {
+                        copy.remove(this.garnish.get(i));
+                    } else {
+                        copy.remove(Ingredient.HELPFUL_DUCK);
+                    }
                 }
-                // usedIngredients.addAll(this.garnish);
             }
-        } else {
-            if (canFulfill(ingredients)) {
-                setStatus(CustomerOrderStatus.FULFILLED);
-                for (int i = 0; i < this.recipe.size(); i++) {
-                    usedIngredients.add(this.recipe.get(i));
+
+            for (int j = 0; j < ingredients.size(); j++) {
+                if (!copy.contains(ingredients.get(j))) {
+                    usedIngredients.add(ingredients.get(j));
                 }
-                // usedIngredients.addAll(recipe);
             }
         }
-
         return usedIngredients;
     }
 
@@ -152,7 +199,7 @@ public class CustomerOrder implements java.io.Serializable {
     }
 
     public String getGarnishDescription() {
-        if(garnish.isEmpty()){
+        if (garnish.isEmpty()) {
             return "";
         }
         StringBuilder garnishDescription = new StringBuilder();
@@ -176,7 +223,7 @@ public class CustomerOrder implements java.io.Serializable {
      * @return a string representing the recipe
      */
     public String getRecipeDescription() {
-        if(recipe.isEmpty()){
+        if (recipe.isEmpty()) {
             return "";
         }
         StringBuilder recipeDescription = new StringBuilder();

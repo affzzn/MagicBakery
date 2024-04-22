@@ -15,23 +15,33 @@ public class Layer extends Ingredient {
     }
 
     public boolean canBake(List<Ingredient> ingredients) {
-        for (int i = 0; i < recipe.size(); i++) {
-            Ingredient requiredIngredient = recipe.get(i);
-            boolean ingredientFound = false;
-            for (int j = 0; j < ingredients.size(); j++) {
-                Ingredient ingredient = ingredients.get(j);
-                if (requiredIngredient.equals(ingredient) || requiredIngredient.equals(Ingredient.HELPFUL_DUCK)) {
-                    ingredientFound = true;
-                    break;
-                }
-            }
-            // If the required ingredient or a Helpful Duck substitute is not found, return
-            // false
-            if (!ingredientFound) {
-                return false;
+        int helpfulDuckCount = 0;
+        int missingIngredients = 0;
+
+        // Count the number of helpful ducks in the ingredients list
+        for (int i = 0; i < ingredients.size(); i++) {
+            if (ingredients.get(i).equals(Ingredient.HELPFUL_DUCK)) {
+                helpfulDuckCount++;
             }
         }
-        return true;
+
+        // create a copy of ingredients list
+        ArrayList<Ingredient> copy = new ArrayList<Ingredient>(ingredients);
+
+        // Check each ingredient required in the recipe
+        for (int i = 0; i < recipe.size(); i++) {
+
+            if (copy.contains(recipe.get(i))) {
+                copy.remove(recipe.get(i));
+            }
+
+            else {
+                missingIngredients++;
+            }
+        }
+
+        // Check if the number of helpful ducks can cover the missing ingredients
+        return missingIngredients == 0 || missingIngredients <= helpfulDuckCount;
     }
 
     public List<Ingredient> getRecipe() {

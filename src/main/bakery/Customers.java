@@ -1,6 +1,9 @@
 package bakery;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -18,8 +21,20 @@ public class Customers implements Serializable {
 
     private static final long serialVersionUID = 0;
 
-    public Customers(String deckFile, Random random, Collection<Layer> layers, int numPlayers) {
+    public Customers(String deckFile, Random random, Collection<Layer> layers, int numPlayers)
+            throws FileNotFoundException {
+
+        File file = new File(deckFile);
+
+        if (!file.exists()) {
+            throw new FileNotFoundException("File does not exist: " + deckFile);
+        }
         this.random = random;
+        this.activeCustomers = new ArrayList<>();
+        this.customerDeck = new ArrayList<>();
+        this.inactiveCustomers = new ArrayList<>();
+
+        initialiseCustomerDeck(deckFile, layers, numPlayers);
     }
 
     public CustomerOrder addCustomerOrder() {
@@ -51,7 +66,7 @@ public class Customers implements Serializable {
     }
 
     private void initialiseCustomerDeck(String deckFile, Collection<Layer> layers, int numPlayers) {
-
+        
     }
 
     public boolean isEmpty() {

@@ -34,7 +34,6 @@ public class LayerTest {
 		recipe_multi.add(new Ingredient("butter"));
 		recipe_multi.add(new Ingredient("flour"));
 		recipe_multi.add(new Ingredient("sugar"));
-		
 
 		recipe_single = new ArrayList<Ingredient>();
 		recipe_single.add(new Ingredient("ready-made sponge"));
@@ -63,10 +62,10 @@ public class LayerTest {
 	@Test
 	public void testConstructor() throws NoSuchFieldException, IllegalAccessException {
 		@SuppressWarnings("unchecked")
-		List<Ingredient> recipe = (List<Ingredient>)FunctionalHelper.getFieldValue(layer_multi, "recipe");
+		List<Ingredient> recipe = (List<Ingredient>) FunctionalHelper.getFieldValue(layer_multi, "recipe");
 
 		ArrayList<String> ingredients = new ArrayList<String>();
-		for (Ingredient ing: recipe) {
+		for (Ingredient ing : recipe) {
 			ingredients.add(ing.toString());
 		}
 		assertTrue(ingredients.contains("butter"));
@@ -77,7 +76,7 @@ public class LayerTest {
 	@Test
 	public void testGetRecipe() throws NoSuchFieldException, IllegalAccessException {
 		@SuppressWarnings("unchecked")
-		List<Ingredient> recipe = (List<Ingredient>)FunctionalHelper.getFieldValue(layer_multi, "recipe");
+		List<Ingredient> recipe = (List<Ingredient>) FunctionalHelper.getFieldValue(layer_multi, "recipe");
 		List<Ingredient> recipe_too = layer_multi.getRecipe();
 		assertTrue(recipe.containsAll(recipe_too));
 		assertTrue(recipe_too.containsAll(recipe));

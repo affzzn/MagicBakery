@@ -11,6 +11,9 @@ import util.StringUtils;
 /**
  * Represents a player in the Magic Bakery game.
  * Each player has a name and a hand containing ingredients.
+ * 
+ * @author Affan Bin Imran
+ * @version "%I%, %G%"
  */
 public class Player implements Serializable {
 
@@ -112,9 +115,9 @@ public class Player implements Serializable {
         }
 
         ArrayList<Ingredient> ingredientKey = new ArrayList<>(ingredientMap.keySet());
-        ingredientKey.sort(null);        
+        ingredientKey.sort(null);
 
-        for (int i = 0; i <ingredientKey.size(); i++) {
+        for (int i = 0; i < ingredientKey.size(); i++) {
             if (i > 0) {
                 handString.append(", ");
             }
