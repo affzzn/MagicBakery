@@ -32,6 +32,11 @@ public class MagicBakery implements Serializable {
 
     private static final long serialVersionUID = 0;
 
+    //
+    private Player currentPlayer;
+    //
+    private int actionsRemaining;
+
     // enum: ActionType
     public enum ActionType {
         DRAW_INGREDIENT, PASS_INGREDIENT, BAKE_LAYER, FULFIL_ORDER, REFRESH_PANTRY
@@ -64,8 +69,8 @@ public class MagicBakery implements Serializable {
     }
 
     private Ingredient drawFromPantryDeck() {
-        if (pantryDeck.isEmpty()) {
-            if (pantryDiscard.isEmpty()) {
+        if (this.pantryDeck.isEmpty()) {
+            if (this.pantryDiscard.isEmpty()) {
                 throw new EmptyPantryException("empty...", new RuntimeException("Pantry is empty!"));
             }
             pantryDeck.addAll(pantryDiscard);
@@ -79,14 +84,62 @@ public class MagicBakery implements Serializable {
     }
 
     public void drawFromPantry(String IngredientName) {
+        // itertare through pantry: if name of pantry ingredient is == ingredient name
+        // (remove
+        // it from the pantry), add it to current players hand, and break
+
+        // also decrease actions count
+
+        for (int i = 0; i < pantry.size(); i++) {
+            if (((ArrayList<Ingredient>) pantry).get(i).toString().equals(IngredientName)) {
+                currentPlayer.addToHand(((ArrayList<Ingredient>) pantry).get(i));
+                pantry.remove(((ArrayList<Ingredient>) pantry).get(i));
+                break;
+            }
+        }
+        actionsRemaining--;
 
     }
 
     public void drawFromPantry(Ingredient ingredient) {
+        // iterate through pantry: if pantry ingredient == ingredient (remove
+        // it from the pantry), add it to current players hand, and break
+
+        // also decrease actions count
+
+        for (int i = 0; i < pantry.size(); i++) {
+            if (((ArrayList<Ingredient>) pantry).get(i).equals(ingredient)) {
+                currentPlayer.addToHand(((ArrayList<Ingredient>) pantry).get(i));
+                pantry.remove(((ArrayList<Ingredient>) pantry).get(i));
+                break;
+            }
+        }
+        actionsRemaining--;
 
     }
 
     public boolean endTurn() {
+
+        currentPlayer = ((ArrayList<Player>) players)
+                .get((((ArrayList<Player>) players).indexOf(currentPlayer) + 1) % players.size());
+
+        // reset action remaining
+        actionsRemaining = getActionsPermitted();
+
+        // if cureent player = palayers.get(0) >>> if customer deck for customers is not
+        // empty add a cust order
+        // else call time passes ::
+
+        // need to implement timepasses and addCustomerOrder for it to work ::
+
+        // if (currentPlayer == ((ArrayList<Player>) players).get(0)) {
+        // if (customers.getCustomerDeck().isEmpty()) {
+        // customers.addCustomerOrder();
+        // } else {
+        // customers.timePasses();
+        // }
+        // }
+
         return false;
     }
 
@@ -95,12 +148,15 @@ public class MagicBakery implements Serializable {
     }
 
     public int getActionsPermitted() {
-
-        return 0;
+        int numPlayers = players.size();
+        if (numPlayers == 2 || numPlayers == 3) {
+            return 3;
+        }
+        return 2;
     }
 
     public int getActionsRemaining() {
-        return 0;
+        return actionsRemaining;
     }
 
     public Collection<Layer> getBakeableLayers() {
@@ -108,7 +164,7 @@ public class MagicBakery implements Serializable {
     }
 
     public Player getCurrentPlayer() {
-        return null;
+        return this.currentPlayer;
     }
 
     public Customers getCustomers() {
@@ -142,6 +198,12 @@ public class MagicBakery implements Serializable {
     }
 
     public void passCard(Ingredient ingredient, Player recipient) {
+        if (actionsRemaining <= 0) {
+            throw new TooManyActionsException();
+        }
+        // if said ingredient is not in users hand, worng ingredient exception
+
+        actionsRemaining--;
 
     }
 
@@ -154,6 +216,9 @@ public class MagicBakery implements Serializable {
     }
 
     public void refreshPantry() {
+        if (actionsRemaining <= 0) {
+            throw new TooManyActionsException();
+        }
         pantryDiscard.addAll(pantry);
         pantry.clear();
         pantry.add(drawFromPantryDeck());
@@ -161,6 +226,8 @@ public class MagicBakery implements Serializable {
         pantry.add(drawFromPantryDeck());
         pantry.add(drawFromPantryDeck());
         pantry.add(drawFromPantryDeck());
+
+        actionsRemaining--;
     }
 
     public void saveState(File file) {
@@ -169,44 +236,48 @@ public class MagicBakery implements Serializable {
 
     public void startGame(List<String> playerNames, String customerDeckFile) throws FileNotFoundException {
 
-        // // Initialize players
-        // players = new ArrayList<Player>();
+        // Initialize players
+        players = new ArrayList<Player>();
 
-        // for (int i = 0; i < playerNames.size(); i++) {
-        // players.add(new Player(playerNames.get(i)));
-        // }
+        for (int i = 0; i < playerNames.size(); i++) {
+            players.add(new Player(playerNames.get(i)));
+        }
 
-        // // Initialize customers
-        // this.customers = new Customers(customerDeckFile, this.random, this.layers,
-        // playerNames.size());
+        currentPlayer = ((ArrayList<Player>) players).get(0);
 
-        // // Initialize pantry - shuffle the pantry deck
-        // Collections.shuffle((List<?>) this.pantryDeck, this.random); //
+        actionsRemaining = getActionsPermitted();
 
-        // // Draw customer orders
+        // Initialize customers
+        this.customers = new Customers(customerDeckFile, this.random, this.layers,
+                playerNames.size());
 
-        // int numOrders = 0;
-        // if ((playerNames.size() == 3) || (playerNames.size() == 5)) {
-        // numOrders = 2;
-        // } else {
-        // numOrders = 1;
-        // }
+        // Initialize pantry - shuffle the pantry deck
+        Collections.shuffle((List<?>) this.pantryDeck, this.random); //
 
-        // // initialize the customer orders and then draw them ??
+        // Draw customer orders
+
+        int numOrders = 0;
+        if ((playerNames.size() == 3) || (playerNames.size() == 5)) {
+            numOrders = 2;
+        } else {
+            numOrders = 1;
+        }
+
+        // initialize the customer orders and then draw them ??
 
         // for (int i = 0; i < numOrders; i++) {
         // this.customers.addCustomerOrder();
         // }
 
-        // // Deal 3 cards to each player from the pantry deck
-        // for (int i = 0; i < this.players.size(); i++) {
-        // Player player = ((ArrayList<Player>) this.players).get(i);
-        // // Each player draws 3 cards from pantryDeck
-        // for (int j = 0; j < 3; j++) {
-        // Ingredient card = ((Stack<Ingredient>) this.pantryDeck).pop();
-        // player.addToHand(card);
-        // }
-        // }
+        // Deal 3 cards to each player from the pantry deck
+        for (int i = 0; i < this.players.size(); i++) {
+            Player player = ((ArrayList<Player>) this.players).get(i);
+            // Each player draws 3 cards from pantryDeck
+            for (int j = 0; j < 3; j++) {
+                Ingredient card = ((Stack<Ingredient>) this.pantryDeck).pop();
+                player.addToHand(card);
+            }
+        }
 
     }
 

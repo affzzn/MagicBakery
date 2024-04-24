@@ -163,7 +163,7 @@ public class CustomerOrder implements java.io.Serializable {
      * @return the list of ingredients used to fulfill the order
      */
 
-    public List<Ingredient> fulfill(List<Ingredient> ingredients, boolean garnish) throws WrongIngredientsException {
+    public List<Ingredient> fulfill(List<Ingredient> ingredients, boolean garnish) {
 
         ArrayList<Ingredient> usedIngredients = new ArrayList<Ingredient>();
 
@@ -180,10 +180,9 @@ public class CustomerOrder implements java.io.Serializable {
                 }
             }
 
-            if (garnish && canGarnish(copy) && !this.garnish.isEmpty()) {
+            if (garnish && !this.garnish.isEmpty() && canGarnish(copy)) {
                 setStatus(CustomerOrderStatus.GARNISHED);
                 for (int i = 0; i < this.garnish.size(); i++) {
-                    copy.remove(this.garnish.get(i));
                     if (copy.contains(this.garnish.get(i))) {
                         copy.remove(this.garnish.get(i));
                     } else {
@@ -197,8 +196,12 @@ public class CustomerOrder implements java.io.Serializable {
                     usedIngredients.add(ingredients.get(j));
                 }
             }
+            return usedIngredients;
         }
-        return usedIngredients;
+        else{
+            throw new WrongIngredientsException("Insufficient ingredients to fulfill order");
+        }
+        
     }
 
     /**
