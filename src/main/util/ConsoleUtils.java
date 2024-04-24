@@ -2,6 +2,7 @@ package util;
 
 import java.io.Console;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -111,7 +112,14 @@ public class ConsoleUtils {
         return console.readLine(prompt).equalsIgnoreCase("yes");
     }
 
-    private Object promptEnumerateCollection(String prompt, Collection<Object> collection) {
-        return null;
+    private Object promptEnumerateCollection(String prompt, Collection<Object> collection)
+            throws InvocationTargetException {
+        if (collection == null) {
+
+            throw new InvocationTargetException(new NullPointerException());
+        } else {
+
+            return null;
+        }
     }
 }

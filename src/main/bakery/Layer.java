@@ -9,9 +9,17 @@ public class Layer extends Ingredient {
 
     private static final long serialVersionUID = 0;
 
-    public Layer(String name, List<Ingredient> recipe) {
+    public Layer(String name, List<Ingredient> recipe) throws WrongIngredientsException {
         super(name);
-        this.recipe = recipe;
+
+        if (recipe == null) {
+            throw new WrongIngredientsException("Recipe cannot be empty");
+        } else if (recipe.size() == 0) {
+            throw new WrongIngredientsException("Recipe cannot be null");
+        } else {
+            this.recipe = recipe;
+        }
+
     }
 
     public boolean canBake(List<Ingredient> ingredients) {

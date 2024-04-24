@@ -42,11 +42,24 @@ public class CustomerOrder implements java.io.Serializable {
      * @param level   the level of the customer order
      */
 
-    public CustomerOrder(String name, List<Ingredient> recipe, List<Ingredient> granish, int level) {
-        //
+    public CustomerOrder(String name, List<Ingredient> recipe, List<Ingredient> granish, int level)
+            throws WrongIngredientsException {
+
+        if (recipe == null) {
+            throw new WrongIngredientsException("Recipe cannot be null");
+        } else if (recipe.size() == 0) {
+            throw new WrongIngredientsException("Recipe cannot be empty");
+        } else {
+            this.recipe = recipe;
+        }
+
+        if (granish == null) {
+            throw new WrongIngredientsException("Garnish cannot be null");
+        } else {
+            this.garnish = granish;
+        }
+
         this.name = name;
-        this.recipe = recipe;
-        this.garnish = granish;
         this.level = level;
 
         this.status = CustomerOrderStatus.WAITING; // default status to WAITING
@@ -150,7 +163,7 @@ public class CustomerOrder implements java.io.Serializable {
      * @return the list of ingredients used to fulfill the order
      */
 
-    public List<Ingredient> fulfill(List<Ingredient> ingredients, boolean garnish) {
+    public List<Ingredient> fulfill(List<Ingredient> ingredients, boolean garnish) throws WrongIngredientsException {
 
         ArrayList<Ingredient> usedIngredients = new ArrayList<Ingredient>();
 

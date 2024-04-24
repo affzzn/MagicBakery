@@ -73,8 +73,23 @@ public class Player implements Serializable {
      * @param ingredient the ingredient to remove
      */
 
-    public void removeFromHand(Ingredient ingredient) {
-        hand.remove(ingredient);
+    public void removeFromHand(Ingredient ingredient) throws WrongIngredientsException {
+        if (!hand.contains(ingredient)) {
+            throw new WrongIngredientsException("Ingredient not found in hand");
+        } else {
+            int count = 0;
+            for (Ingredient h : hand) {
+                if (h == ingredient) {
+                    count++;
+                }
+            }
+            if (count == 1) {
+
+                hand.remove(ingredient);
+            } else {
+                hand.remove(ingredient);
+            }
+        }
     }
 
     /**

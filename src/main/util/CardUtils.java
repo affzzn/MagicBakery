@@ -2,6 +2,7 @@ package util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,35 +21,38 @@ public class CardUtils {
     }
 
     // read ingredients from a file
-    public static List<Ingredient> readIngredientFile(String path) throws IOException {
+    public static List<Ingredient> readIngredientFile(String path) throws IOException, FileNotFoundException {
         // stringToIngredient is supposed to read the ingredients file line by line and
         // calls the stringToIngredient method for each line
 
-        ArrayList<Ingredient> allIngredients = new ArrayList<>(); // big list of all ingredients
+        if (path == null) {
+            throw new FileNotFoundException("Path cannot be null");
+        } else {
 
-        BufferedReader reader = null;
-        String line = "";
+            ArrayList<Ingredient> allIngredients = new ArrayList<>(); // big list of all ingredients
 
-        try {
-            reader = new BufferedReader(new FileReader(path));
+            BufferedReader reader = null;
+            String line = "";
 
-            line = reader.readLine(); // skip the header
-            while ((line = reader.readLine()) != null) {
-                stringToIngredients(line); // im not sure ahout this
-                allIngredients.addAll(stringToIngredients(line));
-                System.out.println(line);
+            try {
+                reader = new BufferedReader(new FileReader(path));
+
+                line = reader.readLine(); // skip the header
+                while ((line = reader.readLine()) != null) {
+                    stringToIngredients(line); // not sure
+                    allIngredients.addAll(stringToIngredients(line));
+                    System.out.println(line);
+                }
+            } catch (FileNotFoundException e) {
+                throw e;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            System.out.println(allIngredients.size());
+            System.out.println(allIngredients.toString());
+            return allIngredients;
         }
-
-        // For now, I'll return an empty Arraylist
-        // return new ArrayList<Ingredient>();
-
-        // real return
-        System.out.println(allIngredients.size());
-        System.out.println(allIngredients.toString());
-        return allIngredients;
     }
 
     private static List<Ingredient> stringToIngredients(String str) {
