@@ -3,11 +3,27 @@ package bakery;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a Layer in the Magic Bakery game.
+ * Each Layer has a name and a recipe containing ingredients.
+ * 
+ * @author Affan Bin Imran
+ * @version "%I%, %G%"
+ */
+
 public class Layer extends Ingredient {
 
     private List<Ingredient> recipe;
 
     private static final long serialVersionUID = 0;
+
+    /**
+     * Constructs a layer with the specified name and recipe.
+     *
+     * @param name   the name of the layer
+     * @param recipe the recipe of the layer
+     * @throws WrongIngredientsException if the recipe is null or empty
+     */
 
     public Layer(String name, List<Ingredient> recipe) throws WrongIngredientsException {
         super(name);
@@ -21,6 +37,13 @@ public class Layer extends Ingredient {
         }
 
     }
+
+    /**
+     * Checks if the player's hand contains a specific ingredient.
+     *
+     * @param ingredients the list of ingredients to check
+     * @return true if the player's hand contains the ingredient, false otherwise
+     */
 
     public boolean canBake(List<Ingredient> ingredients) {
         int helpfulDuckCount = 0;
@@ -52,9 +75,21 @@ public class Layer extends Ingredient {
         return missingIngredients == 0 || missingIngredients <= helpfulDuckCount;
     }
 
+    /**
+     * Returns the recipe of the layer.
+     *
+     * @return the recipe of the layer
+     */
+
     public List<Ingredient> getRecipe() {
         return recipe;
     }
+
+    /**
+     * Returns the description of the recipe of the layer.
+     *
+     * @return the description of the recipe of the layer
+     */
 
     public String getRecipeDescription() {
         // return recipe.toString(); //
@@ -71,7 +106,19 @@ public class Layer extends Ingredient {
 
     }
 
+    /**
+     * Returns a string representation of the layer.
+     *
+     * @return a string representation of the layer
+     */
+
     // structural test :: hashCode :: dont see this method in the UML
+
+    /**
+     * Returns a hash code value for the object.
+     * 
+     * @return a hash code value for this object
+     */
     public int hashCode() {
         return super.hashCode();
     }

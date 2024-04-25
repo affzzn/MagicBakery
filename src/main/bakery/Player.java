@@ -71,6 +71,7 @@ public class Player implements Serializable {
      * Removes an ingredient from the player's hand.
      *
      * @param ingredient the ingredient to remove
+     * @throws WrongIngredientsException if the ingredient is not found in the hand
      */
 
     public void removeFromHand(Ingredient ingredient) throws WrongIngredientsException {

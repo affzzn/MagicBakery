@@ -13,33 +13,97 @@ import bakery.MagicBakery;
 import bakery.MagicBakery.ActionType;
 import bakery.Player;
 
+/**
+ * Utility class for console input/output.
+ * This class provides methods for reading input from the console and displaying
+ * 
+ * @author Affan Bin Imran
+ * @version "%I%, %G%"
+ * 
+ */
+
 public class ConsoleUtils {
 
     private Console console;
+
+    /**
+     * Constructs a new ConsoleUtils object.
+     */
 
     public ConsoleUtils() {
         console = System.console();
     }
 
+    /**
+     * Reads a line of text from the console.
+     * 
+     * @return the line of text read from the console
+     */
+
     public String readLine() {
         return console.readLine();
     }
+
+    /**
+     * Reads a line of text from the console using the specified format string and
+     * arguments.
+     * 
+     * @param fmt  the format string
+     * @param args the arguments referenced by the format specifiers in the format
+     *             string
+     * @return the line of text read from the console
+     */
 
     public String readLine(String fmt, Object... args) {
         return console.readLine(fmt, args);
     }
 
+    /**
+     * Displays the specified message on the console.
+     * 
+     * @param prompt the message to display
+     * @param bakery the MagicBakery object
+     * 
+     * @return the ActionType selected by the player
+     */
     public ActionType promptForAction(String prompt, MagicBakery bakery) {
         return null;
     }
+
+    /**
+     * Displays the specified message on the console and prompts the player to
+     * select an action.
+     * 
+     * @param prompt    the message to display
+     * @param customers the collection of customers to choose from
+     * 
+     * @return customerOrder the customer selected by the player
+     */
 
     public CustomerOrder promptForCustomer(String prompt, Collection<CustomerOrder> customers) {
         return null;
     }
 
+    /**
+     * Displays the specified message on the console and prompts the player to
+     * 
+     * @param prompt for an existing player.
+     * @param bakery the MagicBakery object
+     * @return the player selected by the user
+     */
+
     public Player promptForExistingPlayer(String prompt, MagicBakery bakery) {
         return null;
     }
+
+    /**
+     * Displays the specified message on the console and prompts the player to
+     * select an ingredient.
+     * 
+     * @param prompt the message to display
+     * 
+     * @return the ingredient selected by the player
+     */
 
     public File promptForFilePath(String prompt) {
 
@@ -48,6 +112,16 @@ public class ConsoleUtils {
 
         return fileObj;
     }
+
+    /**
+     * Displays the specified message on the console and prompts the player to
+     * select an ingredient.
+     * 
+     * @param prompt      the message to display
+     * @param ingredients the collection of ingredients to choose from
+     * 
+     * @return the ingredient selected by the player
+     */
 
     public Ingredient promptForIngredient(String prompt, Collection<Ingredient> ingredients) {
 
@@ -60,6 +134,15 @@ public class ConsoleUtils {
 
         return null;
     }
+
+    /**
+     * Displays the specified message on the console and prompts the player to
+     * select a player.
+     * 
+     * @param prompt the message to display
+     * 
+     * @return the player selected by the player
+     */
 
     public List<String> promptForNewPlayers(String prompt) {
         System.out.println(prompt);
@@ -104,9 +187,28 @@ public class ConsoleUtils {
         return players;
     }
 
+    /**
+     * Displays the specified message on the console and prompts the player to
+     * select a player.
+     * 
+     * @param prompt the message to display
+     * 
+     * @return the player selected by the player
+     */
+
     public boolean promptForStartLoad(String prompt) {
         return console.readLine(prompt).equalsIgnoreCase("yes");
     }
+
+    /**
+     * Displays the specified message on the console and prompts the player to
+     * select a player.
+     * 
+     * @param prompt the message to display
+     * 
+     * 
+     * @return the player selected by the player
+     */
 
     public boolean promptForYesNo(String prompt) {
         return console.readLine(prompt).equalsIgnoreCase("yes");

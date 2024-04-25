@@ -13,6 +13,15 @@ import bakery.CustomerOrder;
 import bakery.Ingredient;
 import bakery.Layer;
 
+/**
+ * Utility class for reading ingredients, layers, and customer orders from
+ * files.
+ * 
+ * @author Affan Bin Imran
+ * 
+ * @version "%I%, %G%"
+ */
+
 public class CardUtils {
 
     // all methods are static
@@ -21,6 +30,16 @@ public class CardUtils {
     }
 
     // read ingredients from a file
+
+    /**
+     * Reads ingredients from a file and returns a list of ingredients.
+     * 
+     * @param path
+     * @return
+     * @throws IOException
+     * @throws FileNotFoundException
+     */
+
     public static List<Ingredient> readIngredientFile(String path) throws IOException, FileNotFoundException {
         // stringToIngredient is supposed to read the ingredients file line by line and
         // calls the stringToIngredient method for each line
@@ -90,9 +109,15 @@ public class CardUtils {
         return ingredients;
     }
 
-    // Layers
+    /**
+     * Reads ingredients from a file and returns a list of ingredients.
+     * 
+     * 
+     * @param path
+     * @return a list of layers
+     * @throws IOException
+     */
 
-    // Read layers from a file
     public static List<Layer> readLayerFile(String path) throws IOException {
         ArrayList<Layer> allLayers = new ArrayList<Layer>(); // big list of all layers
 
@@ -144,6 +169,15 @@ public class CardUtils {
     }
 
     // customer orrders
+
+    /**
+     * Reads customer orders from a file and returns a list of customer orders.
+     * 
+     * @param path
+     * @param layers
+     * @return
+     * @throws IOException
+     */
 
     public static List<CustomerOrder> readCustomerFile(String path, Collection<Layer> layers)
             throws IOException {

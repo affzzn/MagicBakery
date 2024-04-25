@@ -6,6 +6,10 @@ import java.util.List;
 /**
  * Represents a customer order in the bakery.
  * Each order has a name, recipe, garnish, level, and status.
+ * 
+ * @author Affan Bin Imran
+ * 
+ * @version "%I%, %G%"
  */
 
 public class CustomerOrder implements java.io.Serializable {
@@ -33,15 +37,19 @@ public class CustomerOrder implements java.io.Serializable {
     }
 
     /**
-     * Constructs a customer order with the specified name, recipe, garnish, and
+     * Constructs a CustomerOrder with the specified name, recipe, garnish, and
      * level.
+     * 
      *
      * @param name    the name of the customer order
      * @param recipe  the recipe of the customer order
      * @param garnish the garnish of the customer order
      * @param level   the level of the customer order
+     * 
+     * @throws WrongIngredientsException if the recipe or garnish is null or empty
+     * 
+     * 
      */
-
     public CustomerOrder(String name, List<Ingredient> recipe, List<Ingredient> granish, int level)
             throws WrongIngredientsException {
 
@@ -197,11 +205,10 @@ public class CustomerOrder implements java.io.Serializable {
                 }
             }
             return usedIngredients;
-        }
-        else{
+        } else {
             throw new WrongIngredientsException("Insufficient ingredients to fulfill order");
         }
-        
+
     }
 
     /**
@@ -214,6 +221,12 @@ public class CustomerOrder implements java.io.Serializable {
         return garnish;
     }
 
+    /**
+     * Returns a string representation of the garnish.
+     *
+     * @return a string representing the garnish
+     */
+
     public String getGarnishDescription() {
         if (garnish.isEmpty()) {
             return "";
@@ -225,9 +238,21 @@ public class CustomerOrder implements java.io.Serializable {
         return garnishDescription.toString().substring(0, garnishDescription.toString().length() - 2);
     }
 
+    /**
+     * Returns the level of the customer order.
+     *
+     * @return the level of the customer order
+     */
+
     public int getLevel() {
         return level;
     }
+
+    /**
+     * Returns the name of the customer order.
+     *
+     * @return the name of the customer order
+     */
 
     public List<Ingredient> getRecipe() {
         return recipe;
@@ -249,10 +274,23 @@ public class CustomerOrder implements java.io.Serializable {
         return recipeDescription.toString().substring(0, recipeDescription.toString().length() - 2);
     }
 
+    /**
+     * Returns the name of the customer order.
+     *
+     * @return the name of the customer order
+     */
+
     // getter and setter for status
     public CustomerOrderStatus getStatus() {
         return status;
     }
+
+    /**
+     * Returns the name of the customer order.
+     *
+     * @param status the status of the customer order
+     *
+     */
 
     public void setStatus(CustomerOrderStatus status) {
         this.status = status;
