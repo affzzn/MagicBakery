@@ -47,18 +47,14 @@ public class Customers implements Serializable {
      * @param numPlayers the number of players in the game
      * 
      * @throws FileNotFoundException if the file does not exist
+     * @throws IOException           if an I/O error occurs
      */
 
     public Customers(
             String deckFile, Random random,
             Collection<Layer> layers,
-            int numPlayers) throws FileNotFoundException {
+            int numPlayers) throws FileNotFoundException, IOException {
 
-        File file = new File(deckFile);
-
-        if (!file.exists()) {
-            throw new FileNotFoundException("File does not exist: " + deckFile);
-        }
         this.random = random;
         this.activeCustomers = new ArrayList<>();
         this.customerDeck = new Stack<>();
@@ -141,9 +137,10 @@ public class Customers implements Serializable {
      * Returns the inactive customers.
      * 
      * @return the inactive customers
+     * @throws IOException, FileNotFoundException
      */
     private void initialiseCustomerDeck(String deckFile, Collection<Layer> layers, int numPlayers)
-            throws FileNotFoundException {
+            throws FileNotFoundException, IOException {
 
         File file = new File(deckFile);
 
@@ -154,71 +151,67 @@ public class Customers implements Serializable {
         this.customerDeck.clear();
         this.tempOrders.clear();
 
-        try {
-            ArrayList<CustomerOrder> fileList = new ArrayList<CustomerOrder>(
-                    util.CardUtils.readCustomerFile(deckFile, layers));
+        ArrayList<CustomerOrder> fileList = new ArrayList<CustomerOrder>(
+                util.CardUtils.readCustomerFile(deckFile, layers));
 
-            ArrayList<CustomerOrder> level1 = new ArrayList<>();
-            ArrayList<CustomerOrder> level2 = new ArrayList<>();
-            ArrayList<CustomerOrder> level3 = new ArrayList<>();
+        Collections.shuffle(fileList, random);
 
-            for (int i = 0; i < fileList.size(); i++) {
-                if (fileList.get(i).getLevel() == 1) {
-                    level1.add(fileList.get(i));
-                } else if (fileList.get(i).getLevel() == 2) {
-                    level2.add(fileList.get(i));
-                } else if (fileList.get(i).getLevel() == 3) {
-                    level3.add(fileList.get(i));
-                }
+        ArrayList<CustomerOrder> level1 = new ArrayList<>();
+        ArrayList<CustomerOrder> level2 = new ArrayList<>();
+        ArrayList<CustomerOrder> level3 = new ArrayList<>();
+
+        for (int i = 0; i < fileList.size(); i++) {
+            if (fileList.get(i).getLevel() == 1) {
+                level1.add(fileList.get(i));
+            } else if (fileList.get(i).getLevel() == 2) {
+                level2.add(fileList.get(i));
+            } else if (fileList.get(i).getLevel() == 3) {
+                level3.add(fileList.get(i));
             }
-
-            if (numPlayers == 2) {
-                for (int i = 0; i < 4; i++) {
-                    tempOrders.add(level1.get(i));
-                }
-                for (int i = 0; i < 2; i++) {
-                    tempOrders.add(level2.get(i));
-                }
-                for (int i = 0; i < 1; i++) {
-                    tempOrders.add(level3.get(i));
-                }
-            } else if (numPlayers == 3) {
-                for (int i = 0; i < 1; i++) {
-                    tempOrders.add(level1.get(i));
-                }
-                for (int i = 0; i < 2; i++) {
-                    tempOrders.add(level2.get(i));
-                }
-                for (int i = 0; i < 4; i++) {
-                    tempOrders.add(level3.get(i));
-                }
-            } else if (numPlayers == 4) {
-                for (int i = 0; i < 1; i++) {
-                    tempOrders.add(level1.get(i));
-                }
-                for (int i = 0; i < 2; i++) {
-                    tempOrders.add(level2.get(i));
-                }
-                for (int i = 0; i < 4; i++) {
-                    tempOrders.add(level3.get(i));
-                }
-            } else if (numPlayers == 5) {
-                for (int i = 0; i < 1; i++) {
-                    tempOrders.add(level2.get(i));
-                }
-                for (int i = 0; i < 6; i++) {
-                    tempOrders.add(level3.get(i));
-                }
-            }
-
-            Collections.shuffle(tempOrders, random);
-
-            this.customerDeck = tempOrders;
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
         }
+
+        if (numPlayers == 2) {
+            for (int i = 0; i < 4; i++) {
+                tempOrders.add(level1.get(i));
+            }
+            for (int i = 0; i < 2; i++) {
+                tempOrders.add(level2.get(i));
+            }
+            for (int i = 0; i < 1; i++) {
+                tempOrders.add(level3.get(i));
+            }
+        } else if (numPlayers == 3) {
+            for (int i = 0; i < 1; i++) {
+                tempOrders.add(level1.get(i));
+            }
+            for (int i = 0; i < 2; i++) {
+                tempOrders.add(level2.get(i));
+            }
+            for (int i = 0; i < 4; i++) {
+                tempOrders.add(level3.get(i));
+            }
+        } else if (numPlayers == 4) {
+            for (int i = 0; i < 1; i++) {
+                tempOrders.add(level1.get(i));
+            }
+            for (int i = 0; i < 2; i++) {
+                tempOrders.add(level2.get(i));
+            }
+            for (int i = 0; i < 4; i++) {
+                tempOrders.add(level3.get(i));
+            }
+        } else if (numPlayers == 5) {
+            for (int i = 0; i < 1; i++) {
+                tempOrders.add(level2.get(i));
+            }
+            for (int i = 0; i < 6; i++) {
+                tempOrders.add(level3.get(i));
+            }
+        }
+
+        Collections.shuffle(tempOrders, random);
+
+        this.customerDeck = tempOrders;
 
     }
 

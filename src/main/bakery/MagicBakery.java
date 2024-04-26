@@ -428,7 +428,7 @@ public class MagicBakery implements Serializable {
      * @param player the player to set as the current player
      */
 
-    public void startGame(List<String> playerNames, String customerDeckFile) throws FileNotFoundException {
+    public void startGame(List<String> playerNames, String customerDeckFile) throws FileNotFoundException, IOException {
 
         if (customerDeckFile.isEmpty()) {
             throw new FileNotFoundException();
