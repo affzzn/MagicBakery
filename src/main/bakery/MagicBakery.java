@@ -103,10 +103,37 @@ public class MagicBakery implements Serializable {
     /**
      * Bakes the specified layer.
      * 
-     * @param layer
+     * @param layer the layer to bake
      */
 
     public void bakeLayer(Layer layer) {
+        // if this layer is in bakable layers then remove tha layer from this.layers
+        // loop through layers recipe check if the ingredient in the recipe in is
+        // players hand, remove if its there or helpful duck, add the removed ingridien
+        // t to pantry discard
+
+        // add this layer to the current players hand
+
+        // also decrease actions count
+
+        // exceptions
+
+        if (getBakeableLayers().contains(layer)) {
+            layers.remove(layer);
+            for (int i = 0; i < layer.getRecipe().size(); i++) {
+                if (currentPlayer.getHand().contains(layer.getRecipe().get(i))) {
+                    currentPlayer.removeFromHand(layer.getRecipe().get(i));
+                    pantryDiscard.add(layer.getRecipe().get(i));
+                } else {
+                    currentPlayer.removeFromHand(Ingredient.HELPFUL_DUCK);
+                    pantryDiscard.add(Ingredient.HELPFUL_DUCK);
+                }
+            }
+            currentPlayer.addToHand(layer);
+            actionsRemaining--;
+        } else {
+            throw new WrongIngredientsException("Wrong Ingredients");
+        }
 
     }
 
@@ -139,6 +166,8 @@ public class MagicBakery implements Serializable {
         // it from the pantry), add it to current players hand, and break
 
         // also decrease actions count
+
+        // exceptions
 
         for (int i = 0; i < pantry.size(); i++) {
             if (((ArrayList<Ingredient>) pantry).get(i).toString().equals(IngredientName)) {
@@ -215,6 +244,10 @@ public class MagicBakery implements Serializable {
      */
 
     public List<Ingredient> fulfillOrder(CustomerOrder customer, boolean garnish) {
+
+        //
+
+        actionsRemaining--;
         return null;
     }
 
@@ -249,7 +282,17 @@ public class MagicBakery implements Serializable {
      */
 
     public Collection<Layer> getBakeableLayers() {
-        return null;
+
+        // iterate through get layers, for each layer if its bakable then add to a list
+        // and return it
+        List<Layer> bake = new ArrayList<>();
+        for (int i = 0; i < getLayers().size(); i++) {
+            if (((ArrayList<Layer>) getLayers()).get(i).canBake(currentPlayer.getHand())) {
+                bake.add(((ArrayList<Layer>) getLayers()).get(i));
+            }
+        }
+
+        return bake;
     }
 
     /**
@@ -269,7 +312,7 @@ public class MagicBakery implements Serializable {
      */
 
     public Customers getCustomers() {
-        return null;
+        return customers;
     }
 
     /**
@@ -301,7 +344,14 @@ public class MagicBakery implements Serializable {
      */
 
     public Collection<Layer> getLayers() {
-        return this.layers;
+        List<Layer> copy = new ArrayList<>(layers);
+        List<Layer> unique = new ArrayList<>();
+        for (int i = 0; i < copy.size(); i++) {
+            if (!unique.contains(copy.get(i))) {
+                unique.add(copy.get(i));
+            }
+        }
+        return unique;
     }
 
     /**
@@ -327,9 +377,8 @@ public class MagicBakery implements Serializable {
     /**
      * Returns the random number generator.
      * 
+     * @param file the file to load the game state from
      * @return the random number generator
-     * 
-     * 
      * @throws FileNotFoundException if the file is null
      */
 
@@ -368,11 +417,6 @@ public class MagicBakery implements Serializable {
     /**
      * Passes the specified ingredient to the specified player.
      * 
-     * @param ingredient the ingredient to pass
-     * @param recipient  the player to pass the ingredient to
-     * @throws WrongIngredientsException if the ingredient is not in the current
-     *                                   player's hand
-     * @throws TooManyActionsException   if the player has no actions remaining
      */
 
     public void printCustomerServiceRecord() {
@@ -389,8 +433,7 @@ public class MagicBakery implements Serializable {
 
     /**
      * Refreshes the pantry.
-     * 
-     * @throws TooManyActionsException if the player has no actions remaining
+     *
      */
 
     public void refreshPantry() {
@@ -426,6 +469,8 @@ public class MagicBakery implements Serializable {
      * Sets the current player.
      * 
      * @param player the player to set as the current player
+     * @throws FileNotFoundException if file is not found
+     * @throws IOException           if an I/O error occurs
      */
 
     public void startGame(List<String> playerNames, String customerDeckFile) throws FileNotFoundException, IOException {
