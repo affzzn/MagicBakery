@@ -34,10 +34,10 @@ public class CardUtils {
     /**
      * Reads ingredients from a file and returns a list of ingredients.
      * 
-     * @param path
-     * @return
-     * @throws IOException
-     * @throws FileNotFoundException
+     * @param path the path to the file
+     * @return a list of ingredients
+     * @throws IOException           if an I/O error occurs
+     * @throws FileNotFoundException if the file is not found
      */
 
     public static List<Ingredient> readIngredientFile(String path) throws IOException, FileNotFoundException {
@@ -113,9 +113,9 @@ public class CardUtils {
      * Reads ingredients from a file and returns a list of ingredients.
      * 
      * 
-     * @param path
-     * @return a list of layers
-     * @throws IOException
+     * @param path the path to the file
+     * @return a list of layers from the file
+     * @throws IOException if an I/O error occurs
      */
 
     public static List<Layer> readLayerFile(String path) throws IOException {
@@ -173,10 +173,10 @@ public class CardUtils {
     /**
      * Reads customer orders from a file and returns a list of customer orders.
      * 
-     * @param path
-     * @param layers
-     * @return
-     * @throws IOException
+     * @param path   the path to the file
+     * @param layers the layers to use for the customer orders
+     * @return a list of customer orders
+     * @throws IOException if an I/O error occurs
      */
 
     public static List<CustomerOrder> readCustomerFile(String path, Collection<Layer> layers)

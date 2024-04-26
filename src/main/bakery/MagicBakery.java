@@ -47,10 +47,7 @@ public class MagicBakery implements Serializable {
     private int actionsRemaining;
 
     /**
-     * Constructs a MagicBakery object with the specified seed, ingredient deck
-     * file,
-     * and layer deck file.
-     * 
+     * enum: ActionType
      */
 
     // enum: ActionType
@@ -62,11 +59,12 @@ public class MagicBakery implements Serializable {
      * Constructs a MagicBakery object with the specified seed, ingredient deck
      * file, and layer deck file.
      * 
-     * @param seed
-     * @param ingredientDeckFile
-     * @param layerDeckFile
-     * @throws IOException
-     * @throws FileNotFoundException
+     * @param seed               the seed for the random number generator
+     * @param ingredientDeckFile the file containing the ingredient deck
+     * @param layerDeckFile      the file containing the layer deck
+     * 
+     * @throws IOException           if an I/O error occurs
+     * @throws FileNotFoundException if the file does not exist
      */
 
     public MagicBakery(long seed, String ingredientDeckFile, String layerDeckFile)
@@ -156,8 +154,8 @@ public class MagicBakery implements Serializable {
      * Draws an ingredient from the pantry deck and adds it to the current player's
      * hand.
      * 
-     * @param the name of the ingredient to draw
-     * @throws TooManyActionsException if the player has no actions remaining
+     * @param IngredientName the name of the ingredient to draw
+     * 
      */
 
     public void drawFromPantry(String IngredientName) {
@@ -184,7 +182,7 @@ public class MagicBakery implements Serializable {
      * Draws an ingredient from the pantry deck and adds it to the current player's
      * hand.
      * 
-     * @param ingredient
+     * @param ingredient the ingredient to draw
      */
 
     public void drawFromPantry(Ingredient ingredient) {
@@ -468,7 +466,10 @@ public class MagicBakery implements Serializable {
     /**
      * Sets the current player.
      * 
-     * @param player the player to set as the current player
+     * @param playerNames      the player to set as the current player
+     * @param customerDeckFile the file to load the customer deck from
+     * 
+     * 
      * @throws FileNotFoundException if file is not found
      * @throws IOException           if an I/O error occurs
      */
