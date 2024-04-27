@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
@@ -62,6 +61,8 @@ public class MagicBakery implements Serializable {
      * @param seed               the seed for the random number generator
      * @param ingredientDeckFile the file containing the ingredient deck
      * @param layerDeckFile      the file containing the layer deck
+     * 
+     * 
      * 
      * @throws IOException           if an I/O error occurs
      * @throws FileNotFoundException if the file does not exist
@@ -191,6 +192,18 @@ public class MagicBakery implements Serializable {
 
         // also decrease actions count
 
+        if (actionsRemaining <= 0) {
+            throw new TooManyActionsException();
+        }
+
+        else if (!this.pantry.contains(ingredient)) {
+            throw new WrongIngredientsException("wrong ingredient");
+        }
+
+        else {
+
+        }
+
         for (int i = 0; i < pantry.size(); i++) {
             if (((ArrayList<Ingredient>) pantry).get(i).equals(ingredient)) {
                 currentPlayer.addToHand(((ArrayList<Ingredient>) pantry).get(i));
@@ -270,6 +283,10 @@ public class MagicBakery implements Serializable {
      */
 
     public int getActionsRemaining() {
+
+        if (actionsRemaining < 0) {
+            throw new TooManyActionsException();
+        }
         return actionsRemaining;
     }
 
@@ -310,7 +327,7 @@ public class MagicBakery implements Serializable {
      */
 
     public Customers getCustomers() {
-        return customers;
+        return this.customers;
     }
 
     /**
@@ -320,7 +337,8 @@ public class MagicBakery implements Serializable {
      */
 
     public Collection<CustomerOrder> getFulfilableCustomers() {
-        return null;
+
+        return customers.getFulfillable(this.currentPlayer.getHand());
         // return customers.getFulfillableOrders(pantry);
 
     }
@@ -373,11 +391,18 @@ public class MagicBakery implements Serializable {
     }
 
     /**
-     * Returns the random number generator.
+     * Constructs a MagicBakery object with the specified seed, ingredient deck
+     * file,
+     * and layer deck file.
+     *
+     * @param seed               the seed for the random number generator (used for
+     *                           shuffling decks)
+     * @param ingredientDeckFile the file containing the initial ingredient deck
+     * @param layerDeckFile      the file containing the layer deck
      * 
-     * @param file the file to load the game state from
-     * @return the random number generator
-     * @throws FileNotFoundException if the file is null
+     * @throws IOException           if an I/O error occurs while reading deck files
+     * @throws FileNotFoundException if either ingredient or layer deck file is not
+     *                               found
      */
 
     public static MagicBakery loadState(File file) throws FileNotFoundException {
@@ -407,6 +432,12 @@ public class MagicBakery implements Serializable {
         if (!currentPlayer.getHand().contains(ingredient)) {
             throw new WrongIngredientsException("ingredient not found");
         }
+
+        // remove the ingredient from the current players hand and add it to the
+        // recipient
+
+        this.currentPlayer.removeFromHand(ingredient);
+        recipient.addToHand(ingredient);
 
         actionsRemaining--;
 
