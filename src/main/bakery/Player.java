@@ -40,7 +40,6 @@ public class Player implements Serializable {
      */
 
     public void addToHand(List<Ingredient> ingredients) {
-        // hand.addAll(ingredients);
         for (int i = 0; i < ingredients.size(); i++) {
             hand.add(ingredients.get(i));
         }
@@ -90,6 +89,7 @@ public class Player implements Serializable {
             } else {
                 hand.remove(ingredient);
             }
+            // hand.remove(ingredient);
         }
     }
 

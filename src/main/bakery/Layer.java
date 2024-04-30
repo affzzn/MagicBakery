@@ -31,7 +31,7 @@ public class Layer extends Ingredient {
         if (recipe == null) {
             throw new WrongIngredientsException("Recipe cannot be empty");
         } else if (recipe.size() == 0) {
-            throw new WrongIngredientsException("Recipe cannot be null");
+            throw new WrongIngredientsException("Recipe cannot be empty");
         } else {
             this.recipe = recipe;
         }
@@ -72,7 +72,7 @@ public class Layer extends Ingredient {
         }
 
         // Check if the number of helpful ducks can cover the missing ingredients
-        return missingIngredients == 0 || missingIngredients <= helpfulDuckCount;
+        return missingIngredients <= helpfulDuckCount;
     }
 
     /**
@@ -98,9 +98,6 @@ public class Layer extends Ingredient {
         for (Ingredient ingredient : recipe) {
             recipeDescription.append(ingredient).append(", ");
         }
-
-        // return recipeDescription.toString().trim().substring(0, 0); // trim to remove
-        // the trailing space
 
         return recipeDescription.toString().substring(0, recipeDescription.toString().length() - 2);
 

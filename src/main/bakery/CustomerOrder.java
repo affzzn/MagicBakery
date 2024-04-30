@@ -232,9 +232,11 @@ public class CustomerOrder implements java.io.Serializable {
             return "";
         }
         StringBuilder garnishDescription = new StringBuilder();
-        for (Ingredient ingredient : garnish) {
-            garnishDescription.append(ingredient).append(", ");
+
+        for (int i = 0; i < garnish.size(); i++) {
+            garnishDescription.append(garnish.get(i)).append(", ");
         }
+
         return garnishDescription.toString().substring(0, garnishDescription.toString().length() - 2);
     }
 

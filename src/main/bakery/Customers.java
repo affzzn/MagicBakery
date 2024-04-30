@@ -45,11 +45,9 @@ public class Customers implements Serializable {
      * @param random     the random number generator
      * @param layers     the layers in the game
      * @param numPlayers the number of players in the game
-     * 
      * @throws FileNotFoundException if the file does not exist
      * @throws IOException           if an I/O error occurs
      */
-
     public Customers(
             String deckFile, Random random,
             Collection<Layer> layers,
@@ -133,12 +131,6 @@ public class Customers implements Serializable {
         return inactiveCustomers;
     }
 
-    /**
-     * Returns the inactive customers.
-     * 
-     * @return the inactive customers
-     * @throws IOException, FileNotFoundException
-     */
     private void initialiseCustomerDeck(String deckFile, Collection<Layer> layers, int numPlayers)
             throws FileNotFoundException, IOException {
 
@@ -161,52 +153,51 @@ public class Customers implements Serializable {
         ArrayList<CustomerOrder> level3 = new ArrayList<>();
 
         for (int i = 0; i < fileList.size(); i++) {
-            if (fileList.get(i).getLevel() == 1) {
-                level1.add(fileList.get(i));
-            } else if (fileList.get(i).getLevel() == 2) {
-                level2.add(fileList.get(i));
-            } else if (fileList.get(i).getLevel() == 3) {
-                level3.add(fileList.get(i));
+            switch (fileList.get(i).getLevel()) {
+                case 1:
+                    level1.add(fileList.get(i));
+                    break;
+                case 2:
+                    level2.add(fileList.get(i));
+                    break;
+                case 3:
+                    level3.add(fileList.get(i));
+                    break;
             }
         }
 
-        if (numPlayers == 2) {
-            for (int i = 0; i < 4; i++) {
-                tempOrders.add(level1.get(i));
-            }
-            for (int i = 0; i < 2; i++) {
-                tempOrders.add(level2.get(i));
-            }
-            for (int i = 0; i < 1; i++) {
-                tempOrders.add(level3.get(i));
-            }
-        } else if (numPlayers == 3) {
-            for (int i = 0; i < 1; i++) {
-                tempOrders.add(level1.get(i));
-            }
-            for (int i = 0; i < 2; i++) {
-                tempOrders.add(level2.get(i));
-            }
-            for (int i = 0; i < 4; i++) {
-                tempOrders.add(level3.get(i));
-            }
-        } else if (numPlayers == 4) {
-            for (int i = 0; i < 1; i++) {
-                tempOrders.add(level1.get(i));
-            }
-            for (int i = 0; i < 2; i++) {
-                tempOrders.add(level2.get(i));
-            }
-            for (int i = 0; i < 4; i++) {
-                tempOrders.add(level3.get(i));
-            }
-        } else if (numPlayers == 5) {
-            for (int i = 0; i < 1; i++) {
-                tempOrders.add(level2.get(i));
-            }
-            for (int i = 0; i < 6; i++) {
-                tempOrders.add(level3.get(i));
-            }
+        switch (numPlayers) {
+            case 2:
+                for (int i = 0; i < 4; i++) {
+                    tempOrders.add(level1.get(i));
+                }
+                for (int i = 0; i < 2; i++) {
+                    tempOrders.add(level2.get(i));
+                }
+                for (int i = 0; i < 1; i++) {
+                    tempOrders.add(level3.get(i));
+                }
+                break;
+            case 3:
+            case 4:
+                for (int i = 0; i < 1; i++) {
+                    tempOrders.add(level1.get(i));
+                }
+                for (int i = 0; i < 2; i++) {
+                    tempOrders.add(level2.get(i));
+                }
+                for (int i = 0; i < 4; i++) {
+                    tempOrders.add(level3.get(i));
+                }
+                break;
+            case 5:
+                for (int i = 0; i < 1; i++) {
+                    tempOrders.add(level2.get(i));
+                }
+                for (int i = 0; i < 6; i++) {
+                    tempOrders.add(level3.get(i));
+                }
+                break;
         }
 
         Collections.shuffle(tempOrders, random);
@@ -222,7 +213,7 @@ public class Customers implements Serializable {
      */
 
     public boolean isEmpty() {
-        return false;
+        return customerDeck.isEmpty();
     }
 
     /**

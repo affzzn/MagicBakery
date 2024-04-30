@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -43,7 +44,7 @@ public class MagicBakery implements Serializable {
     //
     private Player currentPlayer;
     //
-    private int actionsRemaining;
+    private int remainingActions;
 
     /**
      * enum: ActionType
@@ -129,7 +130,7 @@ public class MagicBakery implements Serializable {
                 }
             }
             currentPlayer.addToHand(layer);
-            actionsRemaining--;
+            remainingActions--;
         } else {
             throw new WrongIngredientsException("Wrong Ingredients");
         }
@@ -175,7 +176,7 @@ public class MagicBakery implements Serializable {
                 break;
             }
         }
-        actionsRemaining--;
+        remainingActions--;
 
     }
 
@@ -192,7 +193,7 @@ public class MagicBakery implements Serializable {
 
         // also decrease actions count
 
-        if (actionsRemaining <= 0) {
+        if (remainingActions <= 0) {
             throw new TooManyActionsException();
         }
 
@@ -211,7 +212,7 @@ public class MagicBakery implements Serializable {
                 break;
             }
         }
-        actionsRemaining--;
+        remainingActions--;
 
     }
 
@@ -227,7 +228,7 @@ public class MagicBakery implements Serializable {
                 .get((((ArrayList<Player>) players).indexOf(currentPlayer) + 1) % players.size());
 
         // reset action remaining
-        actionsRemaining = getActionsPermitted();
+        remainingActions = getActionsPermitted();
 
         // if cureent player = palayers.get(0) >>> if customer deck for customers is not
         // empty add a cust order
@@ -258,7 +259,7 @@ public class MagicBakery implements Serializable {
 
         //
 
-        actionsRemaining--;
+        remainingActions--;
         return null;
     }
 
@@ -284,10 +285,10 @@ public class MagicBakery implements Serializable {
 
     public int getActionsRemaining() {
 
-        if (actionsRemaining < 0) {
+        if (remainingActions < 0) {
             throw new TooManyActionsException();
         }
-        return actionsRemaining;
+        return remainingActions;
     }
 
     /**
@@ -339,7 +340,6 @@ public class MagicBakery implements Serializable {
     public Collection<CustomerOrder> getFulfilableCustomers() {
 
         return customers.getFulfillable(this.currentPlayer.getHand());
-        // return customers.getFulfillableOrders(pantry);
 
     }
 
@@ -425,7 +425,7 @@ public class MagicBakery implements Serializable {
      */
 
     public void passCard(Ingredient ingredient, Player recipient) throws WrongIngredientsException {
-        if (actionsRemaining <= 0) {
+        if (remainingActions <= 0) {
             throw new TooManyActionsException();
         }
         // if said ingredient is not in users hand, worng ingredient exception
@@ -439,7 +439,7 @@ public class MagicBakery implements Serializable {
         this.currentPlayer.removeFromHand(ingredient);
         recipient.addToHand(ingredient);
 
-        actionsRemaining--;
+        remainingActions--;
 
     }
 
@@ -466,7 +466,7 @@ public class MagicBakery implements Serializable {
      */
 
     public void refreshPantry() {
-        if (actionsRemaining <= 0) {
+        if (remainingActions <= 0) {
             throw new TooManyActionsException();
         }
         pantryDiscard.addAll(pantry);
@@ -477,7 +477,7 @@ public class MagicBakery implements Serializable {
         pantry.add(drawFromPantryDeck());
         pantry.add(drawFromPantryDeck());
 
-        actionsRemaining--;
+        remainingActions--;
     }
 
     /**
@@ -520,7 +520,7 @@ public class MagicBakery implements Serializable {
 
         currentPlayer = ((ArrayList<Player>) players).get(0);
 
-        actionsRemaining = getActionsPermitted();
+        remainingActions = getActionsPermitted();
 
         // Initialize customers
         this.customers = new Customers(customerDeckFile, this.random, this.layers,
