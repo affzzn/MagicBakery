@@ -80,13 +80,13 @@ public class MagicBakery implements Serializable {
             throw new FileNotFoundException();
         }
 
-        random = new Random(seed);
+        this.random = new Random(seed);
 
-        pantry = new ArrayList<Ingredient>();
-        players = new ArrayList<Player>();
-        pantryDeck = new Stack<Ingredient>(); // LIFO
-        pantryDiscard = new Stack<Ingredient>(); // LIFO // ?????????
-        layers = new ArrayList<Layer>();
+        this.pantry = new ArrayList<Ingredient>();
+        this.players = new ArrayList<Player>();
+        this.pantryDeck = new Stack<Ingredient>(); // LIFO
+        this.pantryDiscard = new Stack<Ingredient>(); // LIFO
+        this.layers = new ArrayList<Layer>();
 
         List<Ingredient> lstIng = new ArrayList<Ingredient>(CardUtils.readIngredientFile(ingredientDeckFile));
         for (Ingredient i : lstIng) {
@@ -361,13 +361,13 @@ public class MagicBakery implements Serializable {
 
     public Collection<Layer> getLayers() {
         List<Layer> copy = new ArrayList<>(layers);
-        List<Layer> unique = new ArrayList<>();
+        List<Layer> diff = new ArrayList<>();
         for (int i = 0; i < copy.size(); i++) {
-            if (!unique.contains(copy.get(i))) {
-                unique.add(copy.get(i));
+            if (!diff.contains(copy.get(i))) {
+                diff.add(copy.get(i));
             }
         }
-        return unique;
+        return diff;
     }
 
     /**
@@ -412,6 +412,7 @@ public class MagicBakery implements Serializable {
         }
 
         return null;
+
     }
 
     /**

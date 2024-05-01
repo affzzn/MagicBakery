@@ -213,7 +213,12 @@ public class Customers implements Serializable {
      */
 
     public boolean isEmpty() {
-        return customerDeck.isEmpty();
+        for (int i = 0; i < this.activeCustomers.size(); i++) {
+            if (((List<CustomerOrder>) activeCustomers).get(i) != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

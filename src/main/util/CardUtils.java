@@ -173,10 +173,9 @@ public class CardUtils {
     /**
      * Reads customer orders from a file and returns a list of customer orders.
      * 
-     * @param path   the path to the file
-     * @param layers the layers to use for the customer orders
+     * @param path   the path to the customer file
+     * @param layers the layers to use for the customer orders collection
      * @return a list of customer orders
-     * @throws IOException if an I/O error occurs
      */
 
     public static List<CustomerOrder> readCustomerFile(String path, Collection<Layer> layers)
@@ -250,13 +249,8 @@ public class CardUtils {
                 recipeIngredients.add(ingredient);
             }
         }
-
-        // Create an ArrayList to hold the orders
-        // ArrayList<CustomerOrder> orders = new ArrayList<>();
-
         // Create a new Layer object with the parsed data
         CustomerOrder order = new CustomerOrder(name, recipeIngredients, garnishIngredients, level);
-        // orders.add(order);
 
         return order;
     }
