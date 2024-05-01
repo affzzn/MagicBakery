@@ -1,18 +1,23 @@
 package bakery;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
 import util.CardUtils;
+import util.StringUtils;
 
 /**
  * Represents the Magic Bakery game.
@@ -118,7 +123,11 @@ public class MagicBakery implements Serializable {
 
         // exceptions
 
-        if (getBakeableLayers().contains(layer)) {
+        if (remainingActions <= 0) {
+            throw new TooManyActionsException();
+        }
+
+        else if (getBakeableLayers().contains(layer)) {
             layers.remove(layer);
             for (int i = 0; i < layer.getRecipe().size(); i++) {
                 if (currentPlayer.getHand().contains(layer.getRecipe().get(i))) {
@@ -169,6 +178,14 @@ public class MagicBakery implements Serializable {
 
         // exceptions
 
+        if (remainingActions <= 0) {
+            throw new TooManyActionsException();
+        }
+
+        else if (!this.pantry.contains(new Ingredient(IngredientName))) {
+            throw new WrongIngredientsException("wrong ingredient");
+        }
+
         for (int i = 0; i < pantry.size(); i++) {
             if (((ArrayList<Ingredient>) pantry).get(i).toString().equals(IngredientName)) {
                 currentPlayer.addToHand(((ArrayList<Ingredient>) pantry).get(i));
@@ -203,16 +220,15 @@ public class MagicBakery implements Serializable {
 
         else {
 
-        }
-
-        for (int i = 0; i < pantry.size(); i++) {
-            if (((ArrayList<Ingredient>) pantry).get(i).equals(ingredient)) {
-                currentPlayer.addToHand(((ArrayList<Ingredient>) pantry).get(i));
-                pantry.remove(((ArrayList<Ingredient>) pantry).get(i));
-                break;
+            for (int i = 0; i < pantry.size(); i++) {
+                if (((ArrayList<Ingredient>) pantry).get(i).equals(ingredient)) {
+                    currentPlayer.addToHand(((ArrayList<Ingredient>) pantry).get(i));
+                    pantry.remove(((ArrayList<Ingredient>) pantry).get(i));
+                    break;
+                }
             }
+            remainingActions--;
         }
-        remainingActions--;
 
     }
 
@@ -391,20 +407,13 @@ public class MagicBakery implements Serializable {
     }
 
     /**
-     * Constructs a MagicBakery object with the specified seed, ingredient deck
-     * file,
-     * and layer deck file.
-     *
-     * @param seed               the seed for the random number generator (used for
-     *                           shuffling decks)
-     * @param ingredientDeckFile the file containing the initial ingredient deck
-     * @param layerDeckFile      the file containing the layer deck
+     * Loads the game state from a file.
      * 
-     * @throws IOException           if an I/O error occurs while reading deck files
-     * @throws FileNotFoundException if either ingredient or layer deck file is not
-     *                               found
+     * @param file The file from which to load the game state.
+     * @return The loaded MagicBakery instance.
+     * 
+     * @throws FileNotFoundException if the file is null
      */
-
     public static MagicBakery loadState(File file) throws FileNotFoundException {
 
         if (file == null) {
@@ -458,6 +467,24 @@ public class MagicBakery implements Serializable {
      */
 
     public void printGameState() {
+
+        System.out.println("PANTRY: ");
+        List<String> pantryStrings = StringUtils.ingredientsToStrings(this.pantry);
+        for (int i = 0; i < pantryStrings.size(); i++) {
+            System.out.println(pantryStrings.get(i));
+        }
+
+        System.out.println("LAYERS: ");
+        List<String> layerStrings = StringUtils.layersToStrings(getLayers());
+        for (int i = 0; i < layerStrings.size(); i++) {
+            System.out.println(layerStrings.get(i));
+        }
+
+        if (customers.isEmpty()) {
+            System.out.println("No customers yet)");
+        }
+        System.out.println("Current Player: " + this.currentPlayer);
+        System.out.println("Current Player's hand: " + this.currentPlayer.getHandStr());
 
     }
 

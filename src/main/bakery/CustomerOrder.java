@@ -45,10 +45,8 @@ public class CustomerOrder implements java.io.Serializable {
      * @param recipe  the recipe of the customer order
      * @param garnish the garnish of the customer order
      * @param level   the level of the customer order
-     * @throws WrongIngredientsException if the recipe or garnish is null or empty
      */
-    public CustomerOrder(String name, List<Ingredient> recipe, List<Ingredient> granish, int level)
-            throws WrongIngredientsException {
+    public CustomerOrder(String name, List<Ingredient> recipe, List<Ingredient> granish, int level) {
 
         if (recipe == null) {
             throw new WrongIngredientsException("Recipe cannot be null");

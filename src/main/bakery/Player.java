@@ -77,19 +77,7 @@ public class Player implements Serializable {
         if (!hand.contains(ingredient)) {
             throw new WrongIngredientsException("Ingredient not found in hand");
         } else {
-            int count = 0;
-            for (Ingredient h : hand) {
-                if (h == ingredient) {
-                    count++;
-                }
-            }
-            if (count == 1) {
-
-                hand.remove(ingredient);
-            } else {
-                hand.remove(ingredient);
-            }
-            // hand.remove(ingredient);
+            hand.remove(ingredient);
         }
     }
 

@@ -45,13 +45,12 @@ public class Customers implements Serializable {
      * @param random     the random number generator
      * @param layers     the layers in the game
      * @param numPlayers the number of players in the game
-     * @throws FileNotFoundException if the file does not exist
-     * @throws IOException           if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     public Customers(
             String deckFile, Random random,
             Collection<Layer> layers,
-            int numPlayers) throws FileNotFoundException, IOException {
+            int numPlayers) throws IOException {
 
         this.random = random;
         this.activeCustomers = new ArrayList<>();
